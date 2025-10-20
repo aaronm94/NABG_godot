@@ -1,6 +1,4 @@
-[gd_scene load_steps=2 format=3 uid="uid://cyn4ifi3wx6md"]
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_n502b"]
+[gd_scene format=3 uid="uid://cyn4ifi3wx6md"]
 
 [node name="room1" type="Node3D"]
 
@@ -8,7 +6,6 @@
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2, 0)
 use_collision = true
 size = Vector3(50, 4, 50)
-material = SubResource("StandardMaterial3D_n502b")
 
 [node name="pitfall" type="CSGBox3D" parent="floor"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22.5, 0, -21.5)
@@ -112,10 +109,8 @@ size = Vector3(3, 4, 3)
 
 [node name="ceiling" type="CSGBox3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.599, 0)
-visible = false
 use_collision = true
 size = Vector3(50, 0.1, 50)
-material = SubResource("StandardMaterial3D_n502b")
 
 [node name="wall1" type="CSGBox3D" parent="."]
 transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -25.003965, 1.34043, 0.027645111)
