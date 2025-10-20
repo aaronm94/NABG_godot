@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="NABG"
-run/main_scene="uid://dxwiild0uuvug"
+run/main_scene="uid://bgiaye6ylw3wf"
 config/features=PackedStringArray("4.5", "Forward Plus")
 config/icon="res://icon.svg"
 
