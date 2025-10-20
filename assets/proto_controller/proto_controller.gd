@@ -39,30 +39,6 @@ var freeflying := false
 var g_value := 9.8
 var g_vec := Vector3.DOWN * 9.8
 
-# --- Create default bindings once (no editor setup needed) ---
-func _init() -> void:
-	_bind(ACT_LEFT, [KEY_A, KEY_LEFT])
-	_bind(ACT_RIGHT, [KEY_D, KEY_RIGHT])
-	_bind(ACT_FORWARD, [KEY_W, KEY_UP])
-	_bind(ACT_BACK, [KEY_S, KEY_DOWN])
-	_bind(ACT_JUMP, [KEY_SPACE])
-	_bind(ACT_SPRINT, [KEY_SHIFT])
-	_bind(ACT_FREEFLY, [KEY_F])
-
-func _bind(name: String, keys: Array) -> void:
-	if not InputMap.has_action(name):
-		InputMap.add_action(name)
-	for keycode in keys:
-		var exists := false
-		for ev in InputMap.action_get_events(name):
-			if ev is InputEventKey and ev.keycode == keycode:
-				exists = true
-				break
-		if not exists:
-			var e := InputEventKey.new()
-			e.keycode = keycode
-			InputMap.action_add_event(name, e)
-
 func _ready() -> void:
 	g_value = ProjectSettings.get_setting("physics/3d/default_gravity")
 	g_vec = Vector3.DOWN * g_value
@@ -136,3 +112,27 @@ func _set_freefly(enable: bool) -> void:
 	collider.disabled = enable
 	if enable:
 		velocity = Vector3.ZERO
+
+# --- Create default bindings once (no editor setup needed) ---
+func _init() -> void:
+	_bind(ACT_LEFT, [KEY_A, KEY_LEFT])
+	_bind(ACT_RIGHT, [KEY_D, KEY_RIGHT])
+	_bind(ACT_FORWARD, [KEY_W, KEY_UP])
+	_bind(ACT_BACK, [KEY_S, KEY_DOWN])
+	_bind(ACT_JUMP, [KEY_SPACE])
+	_bind(ACT_SPRINT, [KEY_SHIFT])
+	_bind(ACT_FREEFLY, [KEY_F])
+
+func _bind(action_name: String, keys: Array) -> void:
+	if not InputMap.has_action(action_name):
+		InputMap.add_action(action_name)
+	for keycode in keys:
+		var exists := false
+		for ev in InputMap.action_get_events(action_name):
+			if ev is InputEventKey and ev.keycode == keycode:
+				exists = true
+				break
+		if not exists:
+			var e := InputEventKey.new()
+			e.keycode = keycode
+			InputMap.action_add_event(action_name, e)

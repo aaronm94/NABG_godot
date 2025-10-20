@@ -1,7 +1,8 @@
-[gd_scene load_steps=6 format=3 uid="uid://bgiaye6ylw3wf"]
+[gd_scene load_steps=7 format=3 uid="uid://bgiaye6ylw3wf"]
 
 [ext_resource type="PackedScene" uid="uid://dr7jbokfssx44" path="res://scenes/starting_room.tscn" id="1_61mbl"]
 [ext_resource type="PackedScene" uid="uid://bs72ogkvdd7d6" path="res://assets/proto_controller/proto_controller.tscn" id="2_jtwsw"]
+[ext_resource type="PackedScene" uid="uid://cyn4ifi3wx6md" path="res://scenes/room1.tscn" id="3_xh5fq"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_kfcwk"]
 sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
@@ -22,9 +23,13 @@ glow_enabled = true
 environment = SubResource("Environment_d84xi")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.017452382, 0.99984765, 0, -0.9998476, 0.017452382, 0, 2.528, 0)
+transform = Transform3D(1, 0, 0, 0, 0.017452383, 0.9998477, 0, -0.9998477, 0.017452385, 0, 19.028, 0)
 shadow_enabled = true
 
 [node name="Starting_room" parent="." instance=ExtResource("1_61mbl")]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 15.800001, 0, 39.2)
 
 [node name="ProtoController" parent="." instance=ExtResource("2_jtwsw")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14.6, 0, 40.100002)
+
+[node name="room1" parent="." instance=ExtResource("3_xh5fq")]
