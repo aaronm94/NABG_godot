@@ -15,6 +15,10 @@ run/main_scene="uid://bgiaye6ylw3wf"
 config/features=PackedStringArray("4.5", "Forward Plus")
 config/icon="res://icon.svg"
 
+[autoload]
+
+GameState="*res://autoload/game_state.gd"
+
 [dotnet]
 
 project/assembly_name="NABG"
