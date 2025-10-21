@@ -1,8 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://dxwiild0uuvug"]
-
-[ext_resource type="Script" uid="uid://byjtmsfdkwhj2" path="res://3d_level.gd" id="1_wvy5o"]
-[ext_resource type="Script" uid="uid://b4bxsuocgk8ee" path="res://player_resources.gd" id="2_d84xi"]
-[ext_resource type="Script" uid="uid://djcwunp8bqpa8" path="res://pause_menu.gd" id="3_ra883"]
+[gd_scene load_steps=14 format=3 uid="uid://dxwiild0uuvug"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_kfcwk"]
 sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
@@ -30,41 +26,35 @@ script/source = "extends CharacterBody3D
 
 
 
+@onready var timer: Timer = $Timer
 @onready var neck := $Neck
 @onready var camera := $Neck/Camera3D
-@onready var timer = $Timer
-
+@onready var hp_bar := $\"../Player UI/Player Resources/Health Bar\"
+@onready var stamina_bar := $\"../Player UI/Player Resources/Stamina Bar\"
 
 class Character:
 	const MAX_STAMINA: float = 100
 	const MAX_HEALTH: float = 100
 	const JUMP_VELOCITY = 4.5
 	const DEFAULT_SPEED = 3.0
-	const RUN_COST = 5
-	const STAM_REGEN = 1
 	var speed = DEFAULT_SPEED
-	var stamina: float = 50
-	var health: int = 50
-	signal stamina_changed(new_value: float)
-	signal health_changed(new_value: float)
+	var stamina: float = 100
+	var health: int = 100
 	
 	func increment_stamina(change: float) -> float:
 		stamina = clamp(stamina + change, 0, MAX_STAMINA)
-		emit_signal(\"stamina_changed\", stamina)
-		if stamina < 1:
+		stamina_bar.value = stamina
+		if stamina == 0:
 			walk()
 		return stamina
 		
 	func increment_health(change: int) -> int:
 		health = clamp(health + change, 0, MAX_HEALTH)
-		emit_signal(\"health_changed\", stamina)
+		hp_bar.value = health
 		return health
 		
 	func run(run_mod = 3) -> int:
-		if stamina < 1:
-			speed = DEFAULT_SPEED
-		else:
-			speed = DEFAULT_SPEED * run_mod
+		speed = DEFAULT_SPEED * run_mod
 		return speed
 	
 	func walk() -> int:
@@ -72,7 +62,7 @@ class Character:
 		return speed
 	
 	func is_running() -> int:
-		return speed != DEFAULT_SPEED
+		return speed == DEFAULT_SPEED
 		
 	func get_health_percent() ->float:
 		return health/MAX_HEALTH
@@ -82,18 +72,18 @@ class Character:
 		
 		
 		
-		
 	
-var chara = Character.new()
+var player = Character.new()
 
+# https://forum.godotengine.org/t/how-to-make-something-happen-every-x-seconds/116139
 func _ready() -> void:
 	timer.timeout.connect(_on_timeout)
 
 func _on_timeout() -> void:
-	if chara.is_running():
-		chara.increment_stamina(-chara.RUN_COST)
+	if player.is_running():
+		player.increment_stamina(-10)
 	else:
-		chara.increment_stamina(chara.STAM_REGEN)
+		player.increment_stamina(1)
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -114,26 +104,26 @@ func _physics_process(delta: float) -> void:
 
 	# Handle jump.
 	if Input.is_action_just_pressed(\"ui_accept\") and is_on_floor():
-		velocity.y = chara.JUMP_VELOCITY
+		velocity.y = player.JUMP_VELOCITY
 
 	# Get the input direction and handle the movement/deceleration.
 	# As good practice, you should replace UI actions with custom gameplay actions.
 	var input_dir := Input.get_vector(\"left\", \"right\", \"up\", \"down\")
 	var direction = (neck.transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
 	if direction:
-		velocity.x = direction.x * chara.speed
-		velocity.z = direction.z * chara.speed
+		velocity.x = direction.x * player.speed
+		velocity.z = direction.z * player.speed
 	else:
-		velocity.x = move_toward(velocity.x, 0, chara.speed)
-		velocity.z = move_toward(velocity.z, 0, chara.speed)
+		velocity.x = move_toward(velocity.x, 0, player.speed)
+		velocity.z = move_toward(velocity.z, 0, player.speed)
 
 	move_and_slide()
 	
 func _input(event):
 	if event.is_action_pressed(\"Run\"):
-		chara.run()
+		player.run()
 	elif event.is_action_released(\"Run\"):
-		chara.walk()
+		player.walk()
 "
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_d84xi"]
@@ -173,8 +163,7 @@ corner_radius_bottom_right = 3
 corner_radius_bottom_left = 3
 expand_margin_bottom = 3.0
 
-[node name="main" type="Node3D"]
-script = ExtResource("1_wvy5o")
+[node name="Node3D" type="Node3D"]
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_d84xi")
@@ -211,10 +200,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.13911569)
 [node name="Sprite3D" type="Sprite3D" parent="Player"]
 texture = SubResource("ViewportTexture_d84xi")
 
-[node name="Timer" type="Timer" parent="Player"]
-wait_time = 0.1
-autostart = true
-
 [node name="Player UI" type="CanvasLayer" parent="."]
 
 [node name="Player Resources" type="Control" parent="Player UI"]
@@ -224,7 +209,6 @@ offset_left = 96.0
 offset_top = -32.0
 offset_right = 136.0
 offset_bottom = 8.0
-script = ExtResource("2_d84xi")
 
 [node name="Stamina Bar" type="ProgressBar" parent="Player UI/Player Resources"]
 layout_mode = 0
@@ -247,34 +231,3 @@ theme_override_font_sizes/font_size = 1
 theme_override_styles/background = SubResource("StyleBoxFlat_kfcwk")
 theme_override_styles/fill = SubResource("StyleBoxFlat_wvy5o")
 value = 50.0
-
-[node name="Pause Menu" type="CanvasLayer" parent="."]
-script = ExtResource("3_ra883")
-
-[node name="Control" type="Control" parent="Pause Menu"]
-layout_mode = 3
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
-
-[node name="MarginContainer" type="MarginContainer" parent="Pause Menu/Control"]
-z_index = 100
-layout_mode = 0
-offset_left = 384.0
-offset_top = 128.0
-offset_right = 768.0
-offset_bottom = 400.0
-
-[node name="VBoxContainer" type="VBoxContainer" parent="Pause Menu/Control/MarginContainer"]
-layout_mode = 2
-
-[node name="Resume" type="Button" parent="Pause Menu/Control/MarginContainer/VBoxContainer"]
-layout_mode = 2
-text = "Resume"
-
-[node name="Quit" type="Button" parent="Pause Menu/Control/MarginContainer/VBoxContainer"]
-layout_mode = 2
-text = "Quit"
-
-[connection signal="pressed" from="Pause Menu/Control/MarginContainer/VBoxContainer/Resume" to="Pause Menu" method="_on_resume_pressed"]
-[connection signal="pressed" from="Pause Menu/Control/MarginContainer/VBoxContainer/Quit" to="Pause Menu" method="_on_quit_pressed"]
