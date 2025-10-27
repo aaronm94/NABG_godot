@@ -1,6 +1,17 @@
 # autoload/game_state.gd
 extends Node
 
+# Request mouse capture on next scene change (one-shot)
+func request_capture_on_next_scene() -> void:
+    # Connect a one-shot handler so the next scene change will capture the mouse
+    # Using CONNECT_ONESHOT ensures the handler disconnects itself after running
+    get_tree().scene_changed.connect(self._on_scene_changed_once, CONNECT_ONE_SHOT)
+
+func _on_scene_changed_once(_new_root: Node = null) -> void:
+    # Wait one frame to ensure the new scene is fully rendered, then capture the mouse
+    await get_tree().process_frame
+    Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+
 # Stores a tranform you can respawn from (set by checkpoints OR start point)
 var respawn_transform: Transform3D
 var last_death_reason: String = ""
@@ -9,33 +20,31 @@ var last_death_reason: String = ""
 const PLAYER_GROUP: String = "player"
 
 func kill_player(reason: String) -> void:
+    # Called from Area3D.body_entered (physics step) → defer actual work
     last_death_reason = reason
-    # Prefer respawn if we have a valid respawn point, otherwise reload level
+    call_deferred("_handle_kill")
+
+func _handle_kill() -> void:
     if respawn_transform:
         _respawn_player()
     else:
-        _reload_level()
+        # Reloading removes lots of nodes; always defer on the tree
+        get_tree().call_deferred("reload_current_scene")
 
 func _respawn_player() -> void:
     var player := _get_player()
     if not player:
-        _reload_level()
+        get_tree().call_deferred("reload_current_scene")
         return
-    # Reset transform & velocity safely
-    player.global_transform = respawn_transform
+
+    # Do transform/velocity changes outside the physics callback as well
+    player.set_deferred("global_transform", respawn_transform)
     if "velocity" in player:
-        player.velocity = Vector3.ZERO
+        player.set_deferred("velocity", Vector3.ZERO)
     if "_vel" in player:
-        # If using a custom velocity variable
-        player._vel = Vector3.ZERO
+        player.set_deferred("_vel", Vector3.ZERO)
     # OPTIONAL: Camera shake or fade effect can be added here
     # OPTIONAL: Emit a signal for UI updates or sound effects
-    print("Respawn after: ", last_death_reason)
-
-func _reload_level() -> void:
-    var tree := get_tree()
-    if tree:
-        tree.reload_current_scene()
 
 func _get_player() -> Node3D:
     var list := get_tree().get_nodes_in_group(PLAYER_GROUP)

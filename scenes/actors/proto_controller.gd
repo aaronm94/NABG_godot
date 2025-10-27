@@ -43,6 +43,7 @@ func _ready() -> void:
 	g_value = ProjectSettings.get_setting("physics/3d/default_gravity")
 	g_vec = Vector3.DOWN * g_value
 	look_rotation = Vector2(head.rotation.x, rotation.y) # (x=pitch, y=yaw)
+	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 
 func _unhandled_input(event: InputEvent) -> void:
 	# Capture / release mouse
