@@ -6,6 +6,15 @@
 
 extends CharacterBody3D
 
+# ---- Player Resources ----
+signal stamina_changed(new_value: float)
+# signal health_changed(new_value: int)
+
+@export var max_stamina := 100.0
+@export var max_health := 100.0
+var stamina := 100.0
+var health := 100.0
+
 # ---- Toggles ----
 @export var can_move := true
 @export var has_gravity := true
@@ -44,14 +53,10 @@ func _ready() -> void:
 	g_vec = Vector3.DOWN * g_value
 	look_rotation = Vector2(head.rotation.x, rotation.y) # (x=pitch, y=yaw)
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+	stamina_changed.emit(stamina)
+	#health_changed.emit(health)
 
 func _unhandled_input(event: InputEvent) -> void:
-	# Capture / release mouse
-	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
-		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
-	if event is InputEventKey and event.keycode == KEY_ESCAPE and event.pressed:
-		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
-
 	# Look
 	if Input.get_mouse_mode() == Input.MOUSE_MODE_CAPTURED and event is InputEventMouseMotion:
 		rotate_look(event.relative)
@@ -61,6 +66,14 @@ func _unhandled_input(event: InputEvent) -> void:
 		_set_freefly(not freeflying)
 
 func _physics_process(delta: float) -> void:
+	# Example stamina drain/regeneration logic
+	if Input.is_action_pressed("sprint"):
+		stamina = max(stamina - 10 * delta, 0)
+		emit_signal("stamina_changed", stamina)
+	else:
+		stamina = min(stamina + 5 * delta, 100)
+		emit_signal("stamina_changed", stamina)
+	
 	# Freefly (noclip)
 	if can_freefly and freeflying:
 		var fly := Input.get_vector(ACT_LEFT, ACT_RIGHT, ACT_FORWARD, ACT_BACK)

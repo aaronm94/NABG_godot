@@ -1,8 +1,10 @@
-[gd_scene load_steps=7 format=3 uid="uid://bgiaye6ylw3wf"]
+[gd_scene load_steps=9 format=3 uid="uid://bgiaye6ylw3wf"]
 
-[ext_resource type="PackedScene" uid="uid://dr7jbokfssx44" path="res://scenes/environments/starting_room.tscn" id="1_4et8e"]
+[ext_resource type="PackedScene" uid="uid://dr7jbokfssx44" path="res://scenes/environments/rooms/starting_room.tscn" id="1_4et8e"]
 [ext_resource type="PackedScene" uid="uid://bs72ogkvdd7d6" path="res://scenes/actors/proto_controller.tscn" id="2_2ymu8"]
-[ext_resource type="PackedScene" uid="uid://cyn4ifi3wx6md" path="res://scenes/environments/room1.tscn" id="3_vt40n"]
+[ext_resource type="PackedScene" uid="uid://cyn4ifi3wx6md" path="res://scenes/environments/rooms/room1.tscn" id="3_vt40n"]
+[ext_resource type="PackedScene" uid="uid://cfif8snkau54j" path="res://scenes/ui/hud/hud.tscn" id="4_2ymu8"]
+[ext_resource type="PackedScene" uid="uid://ddlr3xlubnwno" path="res://scenes/ui/pause_menu/pause_menu.tscn" id="6_s4udc"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_kfcwk"]
 sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
@@ -33,3 +35,7 @@ transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 15.8
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14.6, 0, 40.100002)
 
 [node name="room1" parent="." instance=ExtResource("3_vt40n")]
+
+[node name="hud" parent="." instance=ExtResource("4_2ymu8")]
+
+[node name="pause_menu" parent="." instance=ExtResource("6_s4udc")]

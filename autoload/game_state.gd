@@ -1,6 +1,12 @@
 # autoload/game_state.gd
 extends Node
 
+	# Keep receiving input whether paused or not
+func _ready() -> void:
+    process_mode = Node.PROCESS_MODE_ALWAYS
+
+# ---- Mouse Capture Management ----
+
 # Request mouse capture on next scene change (one-shot)
 func request_capture_on_next_scene() -> void:
     # Connect a one-shot handler so the next scene change will capture the mouse
@@ -11,6 +17,29 @@ func _on_scene_changed_once(_new_root: Node = null) -> void:
     # Wait one frame to ensure the new scene is fully rendered, then capture the mouse
     await get_tree().process_frame
     Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+
+# ---- Global Pause Management ----
+
+signal paused_changed(paused: bool)
+
+func toggle_pause() -> void:
+    set_paused(!get_tree().paused)
+
+func set_paused(p: bool) -> void:
+    if get_tree().paused == p:
+        return
+    get_tree().paused = p
+    
+    # Cursor visibility/capture
+    Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE if p else Input.MOUSE_MODE_CAPTURED)
+    paused_changed.emit(p)
+        
+func _unhandled_input(event: InputEvent) -> void:
+    # No InputMap: catch ESC directly
+    if event is InputEventKey and event.pressed and event.keycode == KEY_ESCAPE:
+        toggle_pause()
+
+# ---- Player Respawn Management ----
 
 # Stores a tranform you can respawn from (set by checkpoints OR start point)
 var respawn_transform: Transform3D
@@ -36,7 +65,6 @@ func _respawn_player() -> void:
     if not player:
         get_tree().call_deferred("reload_current_scene")
         return
-
     # Do transform/velocity changes outside the physics callback as well
     player.set_deferred("global_transform", respawn_transform)
     if "velocity" in player:
@@ -47,5 +75,4 @@ func _respawn_player() -> void:
     # OPTIONAL: Emit a signal for UI updates or sound effects
 
 func _get_player() -> Node3D:
-    var list := get_tree().get_nodes_in_group(PLAYER_GROUP)
-    return list[0] if list.size() > 0 else null
+    return get_tree().get_first_node_in_group(PLAYER_GROUP)
