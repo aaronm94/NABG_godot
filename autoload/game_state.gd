@@ -1,78 +1,107 @@
 # autoload/game_state.gd
 extends Node
 
-	# Keep receiving input whether paused or not
 func _ready() -> void:
-    process_mode = Node.PROCESS_MODE_ALWAYS
+	# Using a negative index counts from the end, so this gets the last child node of `root`.
+	current_scene = get_tree().current_scene
+	process_mode = Node.PROCESS_MODE_ALWAYS
 
-# ---- Mouse Capture Management ----
+# ===================================================
+#					SCENE CHANGE						
+# ===================================================
 
-# Request mouse capture on next scene change (one-shot)
-func request_capture_on_next_scene() -> void:
-    # Connect a one-shot handler so the next scene change will capture the mouse
-    # Using CONNECT_ONESHOT ensures the handler disconnects itself after running
-    get_tree().scene_changed.connect(self._on_scene_changed_once, CONNECT_ONE_SHOT)
+var current_scene = null
 
-func _on_scene_changed_once(_new_root: Node = null) -> void:
-    # Wait one frame to ensure the new scene is fully rendered, then capture the mouse
-    await get_tree().process_frame
-    Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+func goto_scene(path: String) -> void:
+	if get_tree().paused:
+		get_tree().paused = false
+		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+	
+	var packed := ResourceLoader.load(path)
+	if packed == null or not (packed is PackedScene):
+		push_error("Not a PackedScene: %s" % path)
+		return
+	
+	var next := (packed as PackedScene).instantiate()
+	call_deferred("_swap_scene", next)
+	
+func _swap_scene(next: Node) -> void:
+	if is_instance_valid(current_scene):
+		current_scene.queue_free()
+	get_tree().root.add_child(next)
+	get_tree().current_scene = next
+	current_scene = next
 
-# ---- Global Pause Management ----
+func quit() -> void:
+	get_tree().quit()
+
+# ===================================================
+#					PAUSE LOGIC							
+# ===================================================
 
 signal paused_changed(paused: bool)
 
 func toggle_pause() -> void:
-    set_paused(!get_tree().paused)
+	set_paused(!get_tree().paused)
 
 func set_paused(p: bool) -> void:
-    if get_tree().paused == p:
-        return
-    get_tree().paused = p
-    
-    # Cursor visibility/capture
-    Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE if p else Input.MOUSE_MODE_CAPTURED)
-    paused_changed.emit(p)
-        
-func _unhandled_input(event: InputEvent) -> void:
-    # No InputMap: catch ESC directly
-    if event is InputEventKey and event.pressed and event.keycode == KEY_ESCAPE:
-        toggle_pause()
+	if get_tree().paused == p:
+		return
+	get_tree().paused = p
+	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE if p else Input.MOUSE_MODE_CAPTURED)
+	paused_changed.emit(p)
 
-# ---- Player Respawn Management ----
+func _unhandled_input(e):
+	if e.is_action_pressed("pause"):
+		toggle_pause()
 
-# Stores a tranform you can respawn from (set by checkpoints OR start point)
-var respawn_transform: Transform3D
-var last_death_reason: String = ""
+# ===================================================
+#					SPAWN LOGIC							
+# ===================================================
 
-# Group name for player scene
-const PLAYER_GROUP: String = "player"
+const PlayerScene: PackedScene = preload("res://addons/proto_controller/proto_controller.tscn")
+var player: Node3D # current player instance (set by player on _ready)
 
-func kill_player(reason: String) -> void:
-    # Called from Area3D.body_entered (physics step) → defer actual work
-    last_death_reason = reason
-    call_deferred("_handle_kill")
+func spawn_player() -> void:
+	var sp := get_spawn_point()
+	if sp == null:
+		push_error("No PlayerSpawnPoint found in scene.")
+		return
+	
+	# Instantiate a new player and place them at the spawn point
+	player = PlayerScene.instantiate()
+	sp.get_parent().add_child(player)
+	player.global_transform.origin = sp.global_transform.origin
+	
+	print("Player spawned at:", player.global_transform.origin)
 
-func _handle_kill() -> void:
-    if respawn_transform:
-        _respawn_player()
-    else:
-        # Reloading removes lots of nodes; always defer on the tree
-        get_tree().call_deferred("reload_current_scene")
+func respawn_player() -> void:
+	# If player exist and valid -> teleport
+	if is_instance_valid(player):
+		var sp := get_spawn_point()
+		if sp == null:
+			push_error("No PlayerSpawnPoint found for respawn.")
+			return
 
-func _respawn_player() -> void:
-    var player := _get_player()
-    if not player:
-        get_tree().call_deferred("reload_current_scene")
-        return
-    # Do transform/velocity changes outside the physics callback as well
-    player.set_deferred("global_transform", respawn_transform)
-    if "velocity" in player:
-        player.set_deferred("velocity", Vector3.ZERO)
-    if "_vel" in player:
-        player.set_deferred("_vel", Vector3.ZERO)
-    # OPTIONAL: Camera shake or fade effect can be added here
-    # OPTIONAL: Emit a signal for UI updates or sound effects
+		player.global_transform.origin = sp.global_transform.origin
+		if "velocity" in player:
+			player.velocity = Vector3.ZERO
+		if "reset_on_respawn" in player:
+			player.reset_on_respawn()
+		print("Player respawned at:", player.global_transform.origin)
+	else:
+		# Player missing or freed → just spawn new
+		spawn_player()
 
-func _get_player() -> Node3D:
-    return get_tree().get_first_node_in_group(PLAYER_GROUP)
+func get_spawn_point() -> Node3D:
+	var points := get_tree().get_nodes_in_group("player_spawn_point")
+	if points.size() > 0:
+		return points[0] as Node3D
+	return null
+
+func kill_player(reason: String = "") -> void:
+	print(reason)
+	# Defer to avoid doing this inside physics callbacks (e.g., Area3D.body_entered)
+	
+	# OPTIONAL: add some fade effects or game over UI
+	call_deferred("spawn_player")

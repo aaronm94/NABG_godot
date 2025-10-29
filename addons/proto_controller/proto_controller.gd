@@ -8,12 +8,15 @@ extends CharacterBody3D
 
 # ---- Player Resources ----
 signal stamina_changed(new_value: float)
-# signal health_changed(new_value: int)
+signal health_changed(new_value: float)
 
-@export var max_stamina := 100.0
-@export var max_health := 100.0
-var stamina := 100.0
-var health := 100.0
+# --- Stamina / Sprint config ---
+@export var max_stamina: float = 100.0
+@export var stamina: float = 100.0
+var is_sprinting := false
+
+@export var max_health : float = 100.0
+var health : float = 100.0
 
 # ---- Toggles ----
 @export var can_move := true
@@ -24,23 +27,19 @@ var health := 100.0
 
 # ---- Speeds ----
 @export var look_speed := 0.002
-@export var base_speed := 6.0
-@export var sprint_speed := 12.0
-@export var jump_velocity := 4.5
+@export var base_speed := 5.0
+@export var sprint_speed := 10.0
+@export var jump_velocity := 4.0
 @export var freefly_speed := 25.0
+
+# ---- Stair-friendly defaults (tweak to taste) ----
+@export var step_max_height: float = 0.75   # max ledge height you’ll “auto step”
+@export var max_slope_degrees: float = 75.0 # allow fairly steep faces on stairs
+@export var extra_slides: int = 12           # more slide attempts helps on steps
 
 # ---- Scene refs ----
 @onready var head: Node3D = $Head
 @onready var collider: CollisionShape3D = $Collider
-
-# ---- Input action names (fixed for prototype) ----
-const ACT_LEFT := "move_left"
-const ACT_RIGHT := "move_right"
-const ACT_FORWARD := "move_forward"
-const ACT_BACK := "move_back"
-const ACT_JUMP := "jump"
-const ACT_SPRINT := "sprint"
-const ACT_FREEFLY := "freefly"
 
 # ---- State ----
 var look_rotation := Vector2.ZERO
@@ -55,6 +54,17 @@ func _ready() -> void:
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	stamina_changed.emit(stamina)
 	#health_changed.emit(health)
+	
+	
+	# --- Stair helper ---
+	# Snap keeps you glued to surfaces and helps you mount small ledges.
+	floor_snap_length = step_max_height * 1.25
+	# Let the body consider steeper surfaces as "floor".
+	floor_max_angle = deg_to_rad(max_slope_degrees)
+	# Give the solver more chances to slide along risers.
+	max_slides = extra_slides
+	# A small margin prevents getting wedged on sharp edges.
+	safe_margin = 0.02
 
 func _unhandled_input(event: InputEvent) -> void:
 	# Look
@@ -62,22 +72,44 @@ func _unhandled_input(event: InputEvent) -> void:
 		rotate_look(event.relative)
 
 	# Toggle freefly
-	if can_freefly and Input.is_action_just_pressed(ACT_FREEFLY):
+	if can_freefly and Input.is_action_just_pressed("freefly"):
 		_set_freefly(not freeflying)
 
-func _physics_process(delta: float) -> void:
-	# Example stamina drain/regeneration logic
-	if Input.is_action_pressed("sprint"):
-		stamina = max(stamina - 10 * delta, 0)
-		emit_signal("stamina_changed", stamina)
+# --- physics helper ---
+
+func _input_vec() -> Vector2:
+	return Input.get_vector("left", "right", "forward", "back")
+
+func _move_dir_from_head(iv: Vector2) -> Vector3:
+	var d := head.global_basis * Vector3(iv.x, 0.0, iv.y)
+	return d.normalized()
+
+func _apply_ground_motion(dir: Vector3, speed: float) -> void:
+	if dir != Vector3.ZERO:
+		var v := dir * speed
+		velocity.x = v.x
+		velocity.z = v.z
 	else:
-		stamina = min(stamina + 5 * delta, 100)
-		emit_signal("stamina_changed", stamina)
+		velocity.x = move_toward(velocity.x, 0.0, speed)
+		velocity.z = move_toward(velocity.z, 0.0, speed)
+
+func _physics_process(delta: float) -> void:
+	
+	var iv := _input_vec()
+	var dir := _move_dir_from_head(iv)
+	
+	# Example stamina drain/regeneration logic
+	if Input.is_action_pressed("sprint") and stamina > 0.0:
+		is_sprinting = true
+		stamina = max(stamina - 10.0 * delta, 0.0)
+	else:
+		is_sprinting = false
+		stamina = min(stamina + 5.0 * delta, 100.0)
+	
+	emit_signal("stamina_changed", stamina)
 	
 	# Freefly (noclip)
 	if can_freefly and freeflying:
-		var fly := Input.get_vector(ACT_LEFT, ACT_RIGHT, ACT_FORWARD, ACT_BACK)
-		var dir := (head.global_basis * Vector3(fly.x, 0, fly.y)).normalized()
 		if dir != Vector3.ZERO:
 			move_and_collide(dir * freefly_speed * delta)
 		return
@@ -89,26 +121,18 @@ func _physics_process(delta: float) -> void:
 		velocity.y = 0.0
 
 	# Jump
-	if can_jump and is_on_floor() and Input.is_action_just_pressed(ACT_JUMP):
+	if can_jump and is_on_floor() and Input.is_action_just_pressed("jump"):
 		velocity.y = jump_velocity
 
 	# Ground movement
-	var speed := sprint_speed if (can_sprint and Input.is_action_pressed(ACT_SPRINT)) else base_speed
+	var speed := sprint_speed if (can_sprint and is_sprinting) else base_speed
+
 	if can_move:
-		var iv := Input.get_vector(ACT_LEFT, ACT_RIGHT, ACT_FORWARD, ACT_BACK)
-		var dir := transform.basis * Vector3(iv.x, 0, iv.y)
-		dir.y = 0.0
-		if dir.length() > 0.001:
-			dir = dir.normalized()
-			velocity.x = dir.x * speed
-			velocity.z = dir.z * speed
-		else:
-			velocity.x = move_toward(velocity.x, 0, speed)
-			velocity.z = move_toward(velocity.z, 0, speed)
+		_apply_ground_motion(dir, speed)
 	else:
-		velocity.x = 0
-		velocity.z = 0
-		# leave velocity.y to gravity unless you want to freeze falling
+		velocity.x = 0.0
+		velocity.z = 0.0
+		# keep velocity.y for gravity
 
 	move_and_slide()
 
@@ -126,27 +150,3 @@ func _set_freefly(enable: bool) -> void:
 	collider.disabled = enable
 	if enable:
 		velocity = Vector3.ZERO
-
-# --- Create default bindings once (no editor setup needed) ---
-func _init() -> void:
-	_bind(ACT_LEFT, [KEY_A, KEY_LEFT])
-	_bind(ACT_RIGHT, [KEY_D, KEY_RIGHT])
-	_bind(ACT_FORWARD, [KEY_W, KEY_UP])
-	_bind(ACT_BACK, [KEY_S, KEY_DOWN])
-	_bind(ACT_JUMP, [KEY_SPACE])
-	_bind(ACT_SPRINT, [KEY_SHIFT])
-	_bind(ACT_FREEFLY, [KEY_F])
-
-func _bind(action_name: String, keys: Array) -> void:
-	if not InputMap.has_action(action_name):
-		InputMap.add_action(action_name)
-	for keycode in keys:
-		var exists := false
-		for ev in InputMap.action_get_events(action_name):
-			if ev is InputEventKey and ev.keycode == keycode:
-				exists = true
-				break
-		if not exists:
-			var e := InputEventKey.new()
-			e.keycode = keycode
-			InputMap.action_add_event(action_name, e)
