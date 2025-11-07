@@ -1,0 +1,81 @@
+[gd_scene load_steps=9 format=3 uid="uid://bgl27kpxcmnaq"]
+
+[ext_resource type="Script" uid="uid://bvuls78ovreqc" path="res://addons/SimpleDungeons/DungeonRoom3D.gd" id="1_5w2cf"]
+[ext_resource type="Texture2D" uid="uid://cmuyfap7xjd5v" path="res://tileset textures/carpet big.png" id="2_6qp3x"]
+[ext_resource type="Texture2D" uid="uid://bhmr1xdeebovo" path="res://tileset textures/cieling big.png" id="3_ejgxs"]
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_rte6n"]
+load_path = "res://.godot/imported/carpet_n.png-95b57aaf1695d379dea46446955f2ca1.s3tc.ctex"
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_it042"]
+albedo_texture = ExtResource("2_6qp3x")
+normal_enabled = true
+normal_texture = SubResource("CompressedTexture2D_rte6n")
+
+[sub_resource type="ORMMaterial3D" id="ORMMaterial3D_ww3j1"]
+albedo_texture = ExtResource("3_ejgxs")
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_swpls"]
+load_path = "res://.godot/imported/wall.png-df45cd846fdfe1a7bed1d837d2252f04.s3tc.ctex"
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ow3ip"]
+albedo_texture = SubResource("CompressedTexture2D_swpls")
+
+[node name="Corridor" type="Node3D"]
+script = ExtResource("1_5w2cf")
+metadata/_custom_type_script = "uid://bvuls78ovreqc"
+
+[node name="floor" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -4.5, 0)
+use_collision = true
+size = Vector3(10, 1, 10)
+material = SubResource("StandardMaterial3D_it042")
+
+[node name="ceiling" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.5, 0)
+use_collision = true
+size = Vector3(10, 1, 10)
+material = SubResource("ORMMaterial3D_ww3j1")
+
+[node name="wall2" type="CSGBox3D" parent="."]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 0, -4.5)
+use_collision = true
+size = Vector3(10, 8, 1)
+material = SubResource("StandardMaterial3D_ow3ip")
+
+[node name="DOOR?_F_CUT" type="CSGBox3D" parent="wall2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.4370058, 0)
+operation = 2
+size = Vector3(3, 5.2529297, 1)
+
+[node name="wall3" type="CSGBox3D" parent="."]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 4.5, 0, 0)
+use_collision = true
+size = Vector3(10, 8, 1)
+material = SubResource("StandardMaterial3D_ow3ip")
+
+[node name="DOOR?_R_CUT" type="CSGBox3D" parent="wall3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.4370058, 0)
+operation = 2
+size = Vector3(3, 5.2529297, 1)
+
+[node name="wall4" type="CSGBox3D" parent="."]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -4.5, 0, 0)
+size = Vector3(10, 8, 1)
+material = SubResource("StandardMaterial3D_ow3ip")
+
+[node name="DOOR?_L_CUT" type="CSGBox3D" parent="wall4"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.4370058, 0)
+operation = 2
+size = Vector3(3, 5.2529297, 1)
+
+[node name="wall" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 4.5)
+use_collision = true
+size = Vector3(10, 8, 1)
+material = SubResource("StandardMaterial3D_ow3ip")
+
+[node name="DOOR?_B_CUT" type="CSGBox3D" parent="wall"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.4370058, 0)
+operation = 2
+size = Vector3(3, 5.2529297, 1)
