@@ -1,21 +1,11 @@
-[gd_scene load_steps=12 format=3 uid="uid://bw8tx4n1l8jk"]
+[gd_scene load_steps=9 format=3 uid="uid://bw8tx4n1l8jk"]
 
 [ext_resource type="Script" uid="uid://bvuls78ovreqc" path="res://addons/SimpleDungeons/DungeonRoom3D.gd" id="1_yqcrr"]
 [ext_resource type="Texture2D" uid="uid://dydd6x64uxryr" path="res://addons/SimpleDungeons/sample_assets/kenney-red-checkerboard-cc0.png" id="2_kpqbl"]
-[ext_resource type="Script" uid="uid://bhfn6ts3qghkj" path="res://scenes/environments/rooms/button.gd" id="3_yp1te"]
+[ext_resource type="Script" uid="uid://bhfn6ts3qghkj" path="res://scenes/utilities/button.gd" id="3_yp1te"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_u8nlh"]
 albedo_texture = ExtResource("2_kpqbl")
-
-[sub_resource type="Gradient" id="Gradient_omn5o"]
-
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_ls0we"]
-gradient = SubResource("Gradient_omn5o")
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1b4dt"]
-albedo_texture = SubResource("GradientTexture2D_ls0we")
-uv1_triplanar = true
-uv1_world_triplanar = true
 
 [sub_resource type="GDScript" id="GDScript_4tekc"]
 script/source = "extends Node
@@ -40,40 +30,35 @@ albedo_color = Color(1, 0.44, 0.44, 1)
 
 [node name="ButtonRoom" type="Node3D"]
 script = ExtResource("1_yqcrr")
-size_in_voxels = Vector3i(3, 1, 3)
+size_in_voxels = Vector3i(2, 1, 2)
 min_count = 1
 max_count = 1
 
 [node name="CSGBox3D" type="CSGBox3D" parent="."]
 use_collision = true
-size = Vector3(30, 10, 30)
+size = Vector3(20, 10, 20)
 material = SubResource("StandardMaterial3D_u8nlh")
 
 [node name="CSGBox3D2" type="CSGBox3D" parent="CSGBox3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.25, 0)
 operation = 2
-size = Vector3(29, 9, 29)
+size = Vector3(19, 9, 19)
 
 [node name="DOOR" type="CSGBox3D" parent="CSGBox3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.5, 0, -14.5)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, -2.75, -9.75)
 operation = 2
-size = Vector3(10, 9, 2)
-
-[node name="CSGBox3D3" type="CSGBox3D" parent="CSGBox3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -4.42782, 0)
-operation = 2
-size = Vector3(29, 0.2, 29)
-material = SubResource("StandardMaterial3D_1b4dt")
+size = Vector3(2, 4, 1)
 
 [node name="RemoveUnusedDoors" type="Node" parent="."]
 script = SubResource("GDScript_4tekc")
 
 [node name="CSGBox3D4" type="CSGBox3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -4, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.7252903e-08, -4.4, 0)
 use_collision = true
 material = SubResource("StandardMaterial3D_1qq54")
 
 [node name="Button" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -3.4, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.7252903e-08, -3.9, 0)
 script = ExtResource("3_yp1te")
 
 [node name="CSGBox3D2" type="CSGCylinder3D" parent="Button"]

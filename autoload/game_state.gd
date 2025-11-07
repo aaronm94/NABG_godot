@@ -1,16 +1,19 @@
 # autoload/game_state.gd
 extends Node
 
+var current_scene = null
+var player: Node3D
+var active_spawn_point: Node3D = null
+
+const PlayerScene: PackedScene = preload("res://addons/proto_controller/proto_controller.tscn")
+
 func _ready() -> void:
-	# Using a negative index counts from the end, so this gets the last child node of `root`.
 	current_scene = get_tree().current_scene
 	process_mode = Node.PROCESS_MODE_ALWAYS
 
 # ===================================================
 #					SCENE CHANGE						
 # ===================================================
-
-var current_scene = null
 
 func goto_scene(path: String) -> void:
 	if get_tree().paused:
@@ -58,31 +61,41 @@ func _unhandled_input(e):
 # ===================================================
 #					SPAWN LOGIC							
 # ===================================================
+func set_active_spawn_point(spawn: Node3D) -> void:
+	if spawn and is_instance_valid(spawn):
+		active_spawn_point = spawn
 
-const PlayerScene: PackedScene = preload("res://addons/proto_controller/proto_controller.tscn")
-var player: Node3D # current player instance (set by player on _ready)
+func get_spawn_point() -> Node3D:
+	# 1) prefer explicit active spawn
+	if active_spawn_point and is_instance_valid(active_spawn_point):
+		return active_spawn_point
+
+	# 2) fallback to start spwawn point
+	var points := get_tree().get_nodes_in_group("start_spawn_point")
+	if points.size() > 0:
+		return points[0] as Node3D
+
+	return null
 
 func spawn_player() -> void:
 	var sp := get_spawn_point()
 	if sp == null:
-		push_error("No PlayerSpawnPoint found in scene.")
+		push_error("No spawn point found.")
 		return
 	
 	# Instantiate a new player and place them at the spawn point
 	player = PlayerScene.instantiate()
 	sp.get_parent().add_child(player)
 	player.global_transform.origin = sp.global_transform.origin
-	
 	print("Player spawned at:", player.global_transform.origin)
 
 func respawn_player() -> void:
-	# If player exist and valid -> teleport
+	var sp := get_spawn_point()
+	if sp == null:
+		push_error("No spawn point found for respawn.")
+		return
+	# If player exist and valid -> respawn
 	if is_instance_valid(player):
-		var sp := get_spawn_point()
-		if sp == null:
-			push_error("No PlayerSpawnPoint found for respawn.")
-			return
-
 		player.global_transform.origin = sp.global_transform.origin
 		if "velocity" in player:
 			player.velocity = Vector3.ZERO
@@ -92,12 +105,6 @@ func respawn_player() -> void:
 	else:
 		# Player missing or freed → just spawn new
 		spawn_player()
-
-func get_spawn_point() -> Node3D:
-	var points := get_tree().get_nodes_in_group("player_spawn_point")
-	if points.size() > 0:
-		return points[0] as Node3D
-	return null
 
 func kill_player(reason: String = "") -> void:
 	print(reason)

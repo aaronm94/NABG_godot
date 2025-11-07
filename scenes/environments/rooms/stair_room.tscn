@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://bvdvvuc3aicn6"]
+[gd_scene load_steps=6 format=3 uid="uid://bvdvvuc3aicn6"]
 
 [ext_resource type="Script" uid="uid://bvuls78ovreqc" path="res://addons/SimpleDungeons/DungeonRoom3D.gd" id="1_7t63q"]
 [ext_resource type="Texture2D" uid="uid://dqvyc0ok7chld" path="res://addons/SimpleDungeons/sample_assets/kenney-grey-checkerboard-cc0.png" id="2_34a8c"]
@@ -10,7 +10,28 @@ albedo_texture = ExtResource("2_34a8c")
 uv1_triplanar = true
 uv1_world_triplanar = true
 
-[node name="Stair" type="Node3D"]
+[sub_resource type="GDScript" id="GDScript_d2pxd"]
+script/source = "@tool
+extends Node
+
+#func remove_unused_doors():
+	#for door in $\"..\".get_doors():
+		#if door.get_room_leads_to() == null:
+			#door.door_node.queue_free()
+#
+#func _on_open_room_dungeon_done_generating():
+	#remove_unused_doors()
+	
+func _ready():
+	$\"..\".connect(\"dungeon_done_generating\", remove_unused_doors)
+
+func remove_unused_doors():
+	for door in $\"..\".get_doors():
+		if door.get_room_leads_to() == null:
+			door.door_node.queue_free()
+"
+
+[node name="StairRoom" type="Node3D"]
 script = ExtResource("1_7t63q")
 size_in_voxels = Vector3i(2, 2, 1)
 max_count = 15
@@ -40,3 +61,6 @@ size = Vector3(2, 4, 1)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.75, -4.75, 0)
 size = Vector3(14, 10, 9.5)
 num_stairs = 48
+
+[node name="RemoveUnusedDoors" type="Node" parent="."]
+script = SubResource("GDScript_d2pxd")

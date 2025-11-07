@@ -34,5 +34,5 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.100000024, 0)
 current = true
 
 [node name="InteractRay" type="RayCast3D" parent="Head"]
-target_position = Vector3(0, 0, -3)
+target_position = Vector3(0, -0.1, -2.5)
 collide_with_areas = true
