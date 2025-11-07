@@ -6,10 +6,11 @@ extends CanvasLayer
 var _player: Node = null
 
 func _ready() -> void:
-	$"Player Resources".visible = true # ensure it draws
+	$"Player Resources".visible = true
 
 	_try_bind_player()
-	# bind later too (handles spawn/respawn)
+
+	# keep listening for spawns
 	get_tree().node_added.connect(_on_node_added)
 	get_tree().node_removed.connect(_on_node_removed)
 
@@ -30,23 +31,26 @@ func _bind_player(p: Node) -> void:
 	_unbind_player()
 	_player = p
 
-	# connect signals if they exist
-	if p.has_signal("stamina_changed"):
+	# connect signals (Godot 4 style)
+	if p.has_signal("stamina_changed") and not p.stamina_changed.is_connected(_on_stamina_changed):
 		p.stamina_changed.connect(_on_stamina_changed)
-	if p.has_signal("health_changed"):
+	if p.has_signal("health_changed") and not p.health_changed.is_connected(_on_health_changed):
 		p.health_changed.connect(_on_health_changed)
 
-	# set initial values if properties exist
-	if "max_stamina" in p and "stamina" in p:
-		_set_bar(stamina_bar, float(p.stamina), float(p.max_stamina))
-	if "max_health" in p and "health" in p:
-		_set_bar(health_bar, float(p.health), float(p.max_health))
+	# set initial values DIRECTLY (we know your player has these exports)
+	stamina_bar.min_value = 0.0
+	stamina_bar.max_value = p.max_stamina
+	stamina_bar.value = p.stamina
+
+	health_bar.min_value = 0.0
+	health_bar.max_value = p.max_health
+	health_bar.value = p.health
 
 func _unbind_player() -> void:
 	if _player:
-		if _player.has_signal("stamina_changed"):
+		if _player.has_signal("stamina_changed") and _player.stamina_changed.is_connected(_on_stamina_changed):
 			_player.stamina_changed.disconnect(_on_stamina_changed)
-		if _player.has_signal("health_changed"):
+		if _player.has_signal("health_changed") and _player.health_changed.is_connected(_on_health_changed):
 			_player.health_changed.disconnect(_on_health_changed)
 	_player = null
 

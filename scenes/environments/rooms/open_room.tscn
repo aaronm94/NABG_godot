@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://bvuls78ovreqc" path="res://addons/SimpleDungeons/DungeonRoom3D.gd" id="1_y1qkp"]
 [ext_resource type="Texture2D" uid="uid://i7rtr0ewxm5j" path="res://addons/SimpleDungeons/sample_assets/blue-checkerboard-cc0.png" id="2_fuqwd"]
-[ext_resource type="PackedScene" uid="uid://c2whfv8y5vqye" path="res://scenes/props/kill_volume_pit.tscn" id="3_fuqwd"]
+[ext_resource type="PackedScene" uid="uid://c2whfv8y5vqye" path="res://scenes/utilities/kill_volume_pit.tscn" id="3_fuqwd"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_n0t7s"]
 albedo_texture = ExtResource("2_fuqwd")

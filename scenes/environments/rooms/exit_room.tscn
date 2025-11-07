@@ -1,0 +1,50 @@
+[gd_scene load_steps=8 format=3 uid="uid://ckun84mmfaxho"]
+
+[ext_resource type="Script" uid="uid://bvuls78ovreqc" path="res://addons/SimpleDungeons/DungeonRoom3D.gd" id="1_yc0td"]
+[ext_resource type="Texture2D" uid="uid://bwe02yta75ooa" path="res://addons/SimpleDungeons/sample_assets/kenney-green-checkerboar-cc0.png" id="2_yc0td"]
+[ext_resource type="Texture2D" uid="uid://dd538fil8yio4" path="res://addons/exit_sign.png" id="3_y6k7k"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_p3xxc"]
+albedo_texture = ExtResource("2_yc0td")
+uv1_triplanar = true
+uv1_world_triplanar = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_yc0td"]
+albedo_color = Color(0.43304914, 0.29657623, 0, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qyi4a"]
+albedo_texture = ExtResource("3_y6k7k")
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_yc0td"]
+
+[node name="ExitRoom" type="Node3D"]
+script = ExtResource("1_yc0td")
+min_count = 1
+max_count = 1
+
+[node name="CSGBox3D" type="CSGBox3D" parent="."]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0)
+material_override = SubResource("StandardMaterial3D_p3xxc")
+use_collision = true
+size = Vector3(10, 10, 10)
+
+[node name="CSGBox3D3" type="CSGBox3D" parent="CSGBox3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.25, 0)
+operation = 2
+size = Vector3(9.5, 9, 9.5)
+
+[node name="DOOR_F_CUT" type="CSGBox3D" parent="CSGBox3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.1962946e-07, -2.75, -5.05)
+operation = 2
+size = Vector3(2, 4, 1)
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -3.3, -4.7)
+material_override = SubResource("StandardMaterial3D_yc0td")
+use_collision = true
+size = Vector3(2, 3, 0.25)
+
+[node name="ExitSign" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -2.1855694e-08, -0.5, 0, 0.5, -2.1855694e-08, 0, -1.2, -4.7000017)
+material_override = SubResource("StandardMaterial3D_qyi4a")
+mesh = SubResource("PlaneMesh_yc0td")

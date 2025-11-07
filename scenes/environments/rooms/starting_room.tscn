@@ -1,9 +1,8 @@
-[gd_scene load_steps=7 format=3 uid="uid://cguasyvvydtaj"]
+[gd_scene load_steps=6 format=3 uid="uid://cguasyvvydtaj"]
 
 [ext_resource type="Script" uid="uid://bvuls78ovreqc" path="res://addons/SimpleDungeons/DungeonRoom3D.gd" id="1_af07u"]
 [ext_resource type="Texture2D" uid="uid://wvh1xmoax4ok" path="res://addons/SimpleDungeons/sample_assets/kenney-dark-grey-grid-cc0.png" id="2_fxf0w"]
 [ext_resource type="Texture2D" uid="uid://bxbtgil61x5sx" path="res://addons/SimpleDungeons/sample_assets/kenney-orange-checkerboard-cc0.png" id="3_3km8d"]
-[ext_resource type="Script" uid="uid://cf8tsxxkdp2rc" path="res://scenes/environments/rooms/player_spawn_point.gd" id="4_fxf0w"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_57r0k"]
 albedo_texture = ExtResource("2_fxf0w")
@@ -13,7 +12,7 @@ albedo_texture = ExtResource("3_3km8d")
 uv1_triplanar = true
 uv1_world_triplanar = true
 
-[node name="SpawnRoom" type="Node3D"]
+[node name="StartingRoom" type="Node3D"]
 script = ExtResource("1_af07u")
 min_count = 1
 max_count = 1
@@ -48,7 +47,3 @@ size = Vector3(2, 4, 1)
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -5, -2.75, 0)
 operation = 2
 size = Vector3(2, 4, 1)
-
-[node name="PlayerSpawnPoint" type="Node3D" parent="." groups=["player_spawn_point"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2.4, 0)
-script = ExtResource("4_fxf0w")

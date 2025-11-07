@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://bvuls78ovreqc" path="res://addons/SimpleDungeons/DungeonRoom3D.gd" id="1_yqcrr"]
 [ext_resource type="Texture2D" uid="uid://dydd6x64uxryr" path="res://addons/SimpleDungeons/sample_assets/kenney-red-checkerboard-cc0.png" id="2_kpqbl"]
+[ext_resource type="Script" uid="uid://bhfn6ts3qghkj" path="res://scenes/environments/rooms/button.gd" id="3_yp1te"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_u8nlh"]
 albedo_texture = ExtResource("2_kpqbl")
@@ -28,18 +29,16 @@ func remove_unused_doors():
 			door.door_node.queue_free()
 "
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1qq54"]
+albedo_color = Color(0.9647059, 0.20784314, 0.36078432, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_nvwbp"]
+albedo_color = Color(0.31061712, 0.31061712, 0.3106171, 1)
+
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_sva35"]
 albedo_color = Color(1, 0.44, 0.44, 1)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8485v"]
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1qq54"]
-albedo_color = Color(0.5, 0.243333, 0.225, 1)
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ca5kw"]
-albedo_color = Color(0.5, 0.243333, 0.225, 1)
-
-[node name="EndRoom" type="Node3D"]
+[node name="ButtonRoom" type="Node3D"]
 script = ExtResource("1_yqcrr")
 size_in_voxels = Vector3i(3, 1, 3)
 min_count = 1
@@ -68,41 +67,26 @@ material = SubResource("StandardMaterial3D_1b4dt")
 [node name="RemoveUnusedDoors" type="Node" parent="."]
 script = SubResource("GDScript_4tekc")
 
-[node name="CSGCombiner3D" type="CSGCombiner3D" parent="."]
+[node name="CSGBox3D4" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -4, 0)
 use_collision = true
-
-[node name="CSGBox3D2" type="CSGBox3D" parent="CSGCombiner3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.5, -3, 0)
-size = Vector3(8, 1, 8)
-material = SubResource("StandardMaterial3D_sva35")
-
-[node name="CSGBox3D9" type="CSGBox3D" parent="CSGCombiner3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.5, -3, 0)
-size = Vector3(4, 1, 8)
-material = SubResource("StandardMaterial3D_8485v")
-
-[node name="CSGBox3D4" type="CSGBox3D" parent="CSGCombiner3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.91372, -3.3, 0)
-size = Vector3(13.1274, 1, 8.3)
 material = SubResource("StandardMaterial3D_1qq54")
 
-[node name="CSGBox3D3" type="CSGBox3D" parent="CSGCombiner3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12, -2, 0)
-size = Vector3(1, 3, 8)
-material = SubResource("StandardMaterial3D_ca5kw")
+[node name="Button" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -3.4, 0)
+script = ExtResource("3_yp1te")
 
-[node name="CSGBox3D5" type="CSGBox3D" parent="CSGCombiner3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12, -4.3, 3.5)
-material = SubResource("StandardMaterial3D_ca5kw")
+[node name="CSGBox3D2" type="CSGCylinder3D" parent="Button"]
+use_collision = true
+radius = 0.25
+height = 0.1
+sides = 16
+material = SubResource("StandardMaterial3D_nvwbp")
 
-[node name="CSGBox3D6" type="CSGBox3D" parent="CSGCombiner3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -4.3, 3.5)
-material = SubResource("StandardMaterial3D_ca5kw")
-
-[node name="CSGBox3D7" type="CSGBox3D" parent="CSGCombiner3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12, -4.3, -3.63669)
-material = SubResource("StandardMaterial3D_ca5kw")
-
-[node name="CSGBox3D8" type="CSGBox3D" parent="CSGCombiner3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -4.3, -3.63669)
-material = SubResource("StandardMaterial3D_ca5kw")
+[node name="CSGBox3D3" type="CSGCylinder3D" parent="Button"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.049999952, 0)
+use_collision = true
+radius = 0.1
+height = 0.1
+sides = 16
+material = SubResource("StandardMaterial3D_sva35")
