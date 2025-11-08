@@ -30,6 +30,9 @@ enabled=PackedStringArray("res://addons/SimpleDungeons/plugin.cfg")
 import/blender/enabled=false
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
