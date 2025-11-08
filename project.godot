@@ -19,6 +19,17 @@ config/icon="res://icon.svg"
 
 project/assembly_name="NABG"
 
+<<<<<<< Updated upstream
+=======
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/SimpleDungeons/plugin.cfg")
+
+[filesystem]
+
+import/blender/enabled=false
+
+>>>>>>> Stashed changes
 [input]
 
 up={
