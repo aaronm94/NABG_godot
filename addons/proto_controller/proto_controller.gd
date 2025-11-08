@@ -47,6 +47,7 @@ var health : float = 100.0
 @onready var interact_ray: RayCast3D = $Head/InteractRay
 
 # ---- State ----
+var base_yaw := 0.0
 var look_rotation := Vector2.ZERO
 var freeflying := false
 var g_value := 9.8
@@ -60,6 +61,8 @@ func _ready() -> void:
 	g_value = ProjectSettings.get_setting("physics/3d/default_gravity")
 	g_vec = Vector3.DOWN * g_value
 	
+	# configure look
+	base_yaw = rotation.y
 	look_rotation = Vector2(head.rotation.x, rotation.y) # (x=pitch, y=yaw)
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	
@@ -165,17 +168,21 @@ func _physics_process(delta: float) -> void:
 	move_and_slide()
 
 func rotate_look(delta_mouse: Vector2) -> void:
-	# pitch on head
-	look_rotation.x = clamp(look_rotation.x - delta_mouse.y * look_speed, deg_to_rad(-85), deg_to_rad(85))
-	# yaw on body
+	# pitch (X) on head
+	look_rotation.x = clamp(
+		look_rotation.x - delta_mouse.y * look_speed, 
+		deg_to_rad(-85), 
+		deg_to_rad(85)
+	)
+	
+	# yaw (Y) on body, relative to starting yaw
 	look_rotation.y -= delta_mouse.x * look_speed
 	
-	# clear roll
-	transform.basis = Basis()
-	rotate_y(look_rotation.y)
-	
-	head.transform.basis = Basis()
-	head.rotate_x(look_rotation.x)
+	# apply yaw WITHOUT resetting the basis to identity
+	rotation.y = base_yaw + look_rotation.y
+
+	# apply pitch on head, also without resetting to identity
+	head.rotation.x = look_rotation.x
 
 func _set_freefly(enable: bool) -> void:
 	freeflying = enable
