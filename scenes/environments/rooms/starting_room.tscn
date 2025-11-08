@@ -1,0 +1,72 @@
+[gd_scene load_steps=9 format=3 uid="uid://cguasyvvydtaj"]
+
+[ext_resource type="Script" uid="uid://bvuls78ovreqc" path="res://addons/SimpleDungeons/DungeonRoom3D.gd" id="1_af07u"]
+[ext_resource type="Texture2D" uid="uid://bxbtgil61x5sx" path="res://addons/SimpleDungeons/sample_assets/kenney-orange-checkerboard-cc0.png" id="3_3km8d"]
+[ext_resource type="Material" uid="uid://c5geficuo6gqi" path="res://textures/corridor_walls.tres" id="4_uvoeg"]
+[ext_resource type="PackedScene" uid="uid://c7wia80o1eu3v" path="res://scenes/environments/models/floor.tscn" id="5_r6moe"]
+[ext_resource type="PackedScene" uid="uid://bdu6qrj8u4qei" path="res://scenes/environments/models/ceiling.tscn" id="6_revfa"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_57r0k"]
+
+[sub_resource type="TextMesh" id="TextMesh_uvoeg"]
+text = "1. Find the Button Room
+2. Click Button
+3. Find Exit Door
+4. SURVIVE"
+font_size = 30
+horizontal_alignment = 0
+uppercase = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_e223w"]
+albedo_texture = ExtResource("3_3km8d")
+
+[node name="StartingRoom" type="Node3D"]
+script = ExtResource("1_af07u")
+min_count = 1
+max_count = 1
+
+[node name="Instruction" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, -1.75, -4.5)
+material_override = SubResource("StandardMaterial3D_57r0k")
+mesh = SubResource("TextMesh_uvoeg")
+
+[node name="Shell" type="CSGBox3D" parent="."]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0.15, 0)
+use_collision = true
+size = Vector3(10, 9.75, 10)
+material = SubResource("StandardMaterial3D_e223w")
+metadata/_edit_lock_ = true
+
+[node name="InteriorCavity" type="CSGBox3D" parent="Shell"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.875, 0)
+operation = 2
+size = Vector3(9.5, 6.5, 9.5)
+material = ExtResource("4_uvoeg")
+metadata/_edit_lock_ = true
+
+[node name="DOOR_F_CUT" type="CSGBox3D" parent="Shell"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2.75, -5.25)
+operation = 2
+size = Vector3(2, 4.25, 1)
+material = ExtResource("4_uvoeg")
+metadata/_edit_lock_ = true
+
+[node name="DOOR_R_CUT" type="CSGBox3D" parent="Shell"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 4.879, -2.75, 0)
+operation = 2
+size = Vector3(2, 4.25, 0.3)
+material = ExtResource("4_uvoeg")
+metadata/_edit_lock_ = true
+
+[node name="DOOR_L_CUT" type="CSGBox3D" parent="Shell"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -5, -2.75, 0)
+operation = 2
+size = Vector3(2, 4.25, 1)
+material = ExtResource("4_uvoeg")
+metadata/_edit_lock_ = true
+
+[node name="Floor" parent="." instance=ExtResource("5_r6moe")]
+transform = Transform3D(-1, 0, -1.509958e-07, 0, 1, 0, 1.509958e-07, 0, -1, 0, -4.85, 0)
+
+[node name="Ceiling" parent="." instance=ExtResource("6_revfa")]
+transform = Transform3D(-1, 0, -1.509958e-07, 0, 1, 0, 1.509958e-07, 0, -1, 0, 1.0273232, 0)

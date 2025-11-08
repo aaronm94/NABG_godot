@@ -6,7 +6,7 @@ func _ready() -> void:
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 
 func startbutton_pressed():
-	GameState.goto_scene("res://scenes/environments/first_floor.tscn")
+	GameState.goto_scene("res://scenes/environments/levels/level_one.tscn")
 
 func options_pressed():
 	GameState.goto_scene("res://scenes/ui/main_menu/options.tscn")
