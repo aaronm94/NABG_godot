@@ -1,6 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://b7i5ku7en1miu"]
-
-[ext_resource type="Script" uid="uid://b5o1kadsdwetr" path="res://scenes/utilities/exit_spawn_point.gd" id="1_nhrri"]
-
-[node name="ExitSpawnPoint" type="Node3D" groups=["exit_spawn_point"]]
-script = ExtResource("1_nhrri")
