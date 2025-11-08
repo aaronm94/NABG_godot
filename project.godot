@@ -27,6 +27,10 @@ project/assembly_name="NABG"
 
 enabled=PackedStringArray("res://addons/SimpleDungeons/plugin.cfg")
 
+[filesystem]
+
+import/blender/enabled=false
+
 [input]
 
 left={
