@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://bgiaye6ylw3wf"]
+[gd_scene load_steps=17 format=3 uid="uid://bgiaye6ylw3wf"]
 
 [ext_resource type="PackedScene" uid="uid://ddlr3xlubnwno" path="res://scenes/ui/pause_menu/pause_menu.tscn" id="1_qly5v"]
 [ext_resource type="PackedScene" uid="uid://cfif8snkau54j" path="res://scenes/ui/hud/hud.tscn" id="2_8oig7"]
@@ -11,10 +11,13 @@
 [ext_resource type="PackedScene" uid="uid://bw8tx4n1l8jk" path="res://scenes/environments/rooms/button_room.tscn" id="10_j0c5n"]
 [ext_resource type="PackedScene" uid="uid://b7i5ku7en1miu" path="res://scenes/utilities/exit_spawn_point.tscn" id="11_mvm25"]
 [ext_resource type="PackedScene" uid="uid://ckun84mmfaxho" path="res://scenes/environments/rooms/exit_room.tscn" id="12_8iot2"]
+[ext_resource type="Shader" uid="uid://1c70h6udi4yn" path="res://scenes/ui/shaders/VHS.gdshader" id="12_qly5v"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_kfcwk"]
-sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
-ground_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
+sky_top_color = Color(0.14618579, 0.18320063, 0.23250729, 1)
+sky_horizon_color = Color(0.100923516, 0.10392108, 0.10992322, 1)
+ground_bottom_color = Color(0.027731022, 0.020158606, 0.013267187, 1)
+ground_horizon_color = Color(0.058468983, 0.060660012, 0.06504745, 1)
 
 [sub_resource type="Sky" id="Sky_wvy5o"]
 sky_material = SubResource("ProceduralSkyMaterial_kfcwk")
@@ -22,8 +25,38 @@ sky_material = SubResource("ProceduralSkyMaterial_kfcwk")
 [sub_resource type="Environment" id="Environment_d84xi"]
 background_mode = 2
 sky = SubResource("Sky_wvy5o")
-tonemap_mode = 2
+tonemap_mode = 3
+sdfgi_enabled = true
 glow_enabled = true
+volumetric_fog_enabled = true
+volumetric_fog_emission = Color(0.25162938, 0.26293346, 0.059294224, 1)
+volumetric_fog_emission_energy = 0.5
+adjustment_enabled = true
+adjustment_brightness = 1.3
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_8oig7"]
+shader = ExtResource("12_qly5v")
+shader_parameter/overlay = true
+shader_parameter/scanlines_opacity = 0.4
+shader_parameter/scanlines_width = 0.25
+shader_parameter/grille_opacity = 0.3
+shader_parameter/resolution = Vector2(1152, 648)
+shader_parameter/pixelate = false
+shader_parameter/roll = true
+shader_parameter/roll_speed = 1.0
+shader_parameter/roll_size = 10.000000475
+shader_parameter/roll_variation = 1.8
+shader_parameter/distort_intensity = 0.05
+shader_parameter/noise_opacity = 0.4
+shader_parameter/noise_speed = 5.0
+shader_parameter/static_noise_intensity = 0.06
+shader_parameter/aberration = 0.03
+shader_parameter/brightness = 2.5
+shader_parameter/discolor = true
+shader_parameter/warp_amount = 1.0
+shader_parameter/clip_warp = false
+shader_parameter/vignette_intensity = 0.4
+shader_parameter/vignette_opacity = 0.5
 
 [node name="Node3D" type="Node3D"]
 
@@ -277,3 +310,13 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 35, 0, 5)
 
 [node name="Corridor_33" parent="DungeonGenerator3D_B/RoomsContainer" instance=ExtResource("4_4wwxj")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 35, 0, 15)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
+material = SubResource("ShaderMaterial_8oig7")
+offset_left = -87.0
+offset_top = -125.0
+offset_right = 1254.0785
+offset_bottom = 802.0
+mouse_filter = 2
