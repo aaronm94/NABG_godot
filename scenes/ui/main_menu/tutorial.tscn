@@ -1,0 +1,187 @@
+[gd_scene load_steps=5 format=3 uid="uid://bjd7yku1di1yi"]
+
+[ext_resource type="Script" uid="uid://dknb1nb3fg52g" path="res://scenes/ui/main_menu/tutorial.gd" id="1_pln10"]
+[ext_resource type="Texture2D" uid="uid://c6bfisi3q66b5" path="res://scenes/ui/main_menu/wasd.png" id="2_30j20"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wjdfu"]
+bg_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+shadow_size = 1
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_oje7a"]
+bg_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_pln10")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -576.0
+offset_top = -324.0
+offset_right = 576.0
+offset_bottom = 324.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="Label" type="Label" parent="ColorRect"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -298.0
+offset_top = 43.0
+offset_right = 292.0
+offset_bottom = 98.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 40
+text = "Tutorial"
+horizontal_alignment = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ColorRect"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -118.0
+offset_top = 98.0
+offset_right = 134.0
+offset_bottom = 273.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Start" type="Button" parent="ColorRect/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_colors/font_color = Color(0.7497807, 0.7497797, 0.74977994, 1)
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 30
+theme_override_styles/normal = SubResource("StyleBoxFlat_wjdfu")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_wjdfu")
+theme_override_styles/hover = SubResource("StyleBoxFlat_wjdfu")
+text = "Begin"
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -642.0
+offset_top = 119.0
+offset_right = -52.0
+offset_bottom = 174.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 40
+text = "Movement"
+horizontal_alignment = 1
+
+[node name="ColorRect2" type="ColorRect" parent="Label"]
+layout_mode = 0
+offset_left = 206.0
+offset_top = 169.0
+offset_right = 258.0
+offset_bottom = 219.0
+
+[node name="ColorRect5" type="ColorRect" parent="Label"]
+layout_mode = 0
+offset_left = 258.0
+offset_top = 97.0
+offset_right = 310.0
+offset_bottom = 147.0
+
+[node name="ColorRect3" type="ColorRect" parent="Label"]
+layout_mode = 0
+offset_left = 350.0
+offset_top = 168.0
+offset_right = 402.0
+offset_bottom = 218.0
+
+[node name="ColorRect4" type="ColorRect" parent="Label"]
+layout_mode = 0
+offset_left = 278.0
+offset_top = 169.0
+offset_right = 330.0
+offset_bottom = 219.0
+
+[node name="TextureRect" type="TextureRect" parent="Label"]
+layout_mode = 0
+offset_left = 173.0
+offset_top = 50.0
+offset_right = 429.0
+offset_bottom = 306.0
+texture = ExtResource("2_30j20")
+
+[node name="Label2" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -50.0
+offset_top = 119.0
+offset_right = 540.0
+offset_bottom = 174.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 40
+text = "Interact with objects
+"
+horizontal_alignment = 1
+
+[node name="Panel" type="Panel" parent="Label2"]
+layout_mode = 0
+offset_left = 278.0
+offset_top = 139.0
+offset_right = 318.0
+offset_bottom = 179.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_oje7a")
+
+[node name="Label3" type="Label" parent="Label2"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -18.0
+offset_top = 138.0
+offset_right = 24.0
+offset_bottom = 180.0
+grow_horizontal = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 30
+text = "E"
+horizontal_alignment = 1
+
+[node name="Label3" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -637.0
+offset_top = 352.0
+offset_right = -47.0
+offset_bottom = 407.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 30
+text = "To maneuver"
+horizontal_alignment = 1
+
+[connection signal="pressed" from="ColorRect/VBoxContainer/Start" to="." method="_begin_pressed"]
