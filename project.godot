@@ -24,6 +24,10 @@ GameActions="*res://autoload/game_actions.gd"
 
 project/assembly_name="NABG"
 
+[editor]
+
+version_control/autoload_on_startup=true
+
 [editor_plugins]
 
 enabled=PackedStringArray("res://addons/SimpleDungeons/plugin.cfg")

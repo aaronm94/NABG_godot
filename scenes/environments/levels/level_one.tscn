@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://bgiaye6ylw3wf"]
+[gd_scene load_steps=18 format=3 uid="uid://bgiaye6ylw3wf"]
 
 [ext_resource type="PackedScene" uid="uid://ddlr3xlubnwno" path="res://scenes/ui/pause_menu/pause_menu.tscn" id="1_qly5v"]
 [ext_resource type="PackedScene" uid="uid://cfif8snkau54j" path="res://scenes/ui/hud/hud.tscn" id="2_8oig7"]
@@ -12,6 +12,7 @@
 [ext_resource type="PackedScene" uid="uid://b7i5ku7en1miu" path="res://scenes/utilities/exit_spawn_point.tscn" id="11_mvm25"]
 [ext_resource type="PackedScene" uid="uid://ckun84mmfaxho" path="res://scenes/environments/rooms/exit_room.tscn" id="12_8iot2"]
 [ext_resource type="Shader" uid="uid://1c70h6udi4yn" path="res://scenes/ui/shaders/VHS.gdshader" id="12_qly5v"]
+[ext_resource type="AudioStream" uid="uid://c2nbbb4ou6bhw" path="res://scenes/sounds/horrorambiance3.mp3" id="13_8oig7"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_kfcwk"]
 sky_top_color = Color(0.14618579, 0.18320063, 0.23250729, 1)
@@ -53,7 +54,7 @@ shader_parameter/static_noise_intensity = 0.06
 shader_parameter/aberration = 0.03
 shader_parameter/brightness = 2.5
 shader_parameter/discolor = true
-shader_parameter/warp_amount = 1.0
+shader_parameter/warp_amount = 0.50000002375
 shader_parameter/clip_warp = false
 shader_parameter/vignette_intensity = 0.4
 shader_parameter/vignette_opacity = 0.5
@@ -320,3 +321,7 @@ offset_top = -125.0
 offset_right = 1254.0785
 offset_bottom = 802.0
 mouse_filter = 2
+
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("13_8oig7")
+autoplay = true
