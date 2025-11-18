@@ -1,7 +1,8 @@
-[gd_scene load_steps=8 format=3 uid="uid://ckun84mmfaxho"]
+[gd_scene load_steps=9 format=3 uid="uid://ckun84mmfaxho"]
 
 [ext_resource type="Script" uid="uid://bvuls78ovreqc" path="res://addons/SimpleDungeons/DungeonRoom3D.gd" id="1_yc0td"]
 [ext_resource type="Texture2D" uid="uid://bwe02yta75ooa" path="res://addons/SimpleDungeons/sample_assets/kenney-green-checkerboar-cc0.png" id="2_yc0td"]
+[ext_resource type="Script" uid="uid://ci4oapxvwalgk" path="res://scenes/utilities/exit_door.gd" id="3_qyi4a"]
 [ext_resource type="Texture2D" uid="uid://dd538fil8yio4" path="res://addons/exit_sign.png" id="3_y6k7k"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_p3xxc"]
@@ -43,6 +44,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -3.3, -4.7999997)
 material_override = SubResource("StandardMaterial3D_yc0td")
 use_collision = true
 size = Vector3(2, 3, 0.15)
+script = ExtResource("3_qyi4a")
 
 [node name="ExitSign" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, -2.1855694e-08, -0.5, 0, 0.5, -2.1855694e-08, 0, -1.2, -4.7000017)

@@ -1,0 +1,29 @@
+[gd_scene load_steps=2 format=3 uid="uid://ccdp4geybgx4l"]
+
+[ext_resource type="Script" uid="uid://ieqvidqaampo" path="res://scenes/ui/level_completed/lvl_complete.gd" id="1_rhh1x"]
+
+[node name="LvlComplete" type="CanvasLayer"]
+script = ExtResource("1_rhh1x")
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 1153.0
+offset_bottom = 646.0
+
+[node name="Completed Text" type="Label" parent="Control"]
+layout_mode = 0
+offset_left = 324.0
+offset_top = 87.0
+offset_right = 897.0
+offset_bottom = 479.0
+theme_override_colors/font_color = Color(0.2792572, 0.7630017, 1.1551381e-06, 1)
+theme_override_font_sizes/font_size = 60
+text = "Level Completed"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Timer" type="Timer" parent="."]
+one_shot = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

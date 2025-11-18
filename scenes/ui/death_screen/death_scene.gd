@@ -17,13 +17,13 @@ func _ready() -> void:
 	GameState.player_died.connect(_on_death)
 	
 	
-func _on_death(reason: String) -> void:
+func _on_death(_reason: String) -> void:
 	GameState.set_paused(true)
 	visible = true
 	$"Control/Death Text".modulate.a = 0
 	
 	var tween = create_tween()
-	tween.tween_property($"Control/Death Text", "modulate:a", 1.0, DEATH_SCREEN_DURATION*2/3)
+	tween.tween_property($"Control/Death Text", "modulate:a", 1.0, DEATH_SCREEN_DURATION*2.0/3.0)
 	timer.start()
 	
 

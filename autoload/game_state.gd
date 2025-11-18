@@ -116,3 +116,8 @@ func kill_player(reason: String = "") -> void:
 	
 	# OPTIONAL: add some fade effects or game over UI
 	call_deferred("spawn_player")
+	
+signal level_completed
+
+func level_finished() -> void:
+	emit_signal("level_completed")
