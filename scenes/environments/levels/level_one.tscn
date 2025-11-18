@@ -1,5 +1,6 @@
-[gd_scene load_steps=15 format=3 uid="uid://bgiaye6ylw3wf"]
+[gd_scene load_steps=16 format=3 uid="uid://bgiaye6ylw3wf"]
 
+[ext_resource type="PackedScene" uid="uid://bxm5cw2c50h4r" path="res://scenes/ui/death_screen/death_scene.tscn" id="1_8oig7"]
 [ext_resource type="PackedScene" uid="uid://ddlr3xlubnwno" path="res://scenes/ui/pause_menu/pause_menu.tscn" id="1_qly5v"]
 [ext_resource type="PackedScene" uid="uid://cfif8snkau54j" path="res://scenes/ui/hud/hud.tscn" id="2_8oig7"]
 [ext_resource type="Script" uid="uid://bkatc8s6l7ok8" path="res://addons/SimpleDungeons/DungeonGenerator3D.gd" id="3_bqwh3"]
@@ -33,6 +34,8 @@ environment = SubResource("Environment_d84xi")
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.017452383, 0.9998477, 0, -0.9998477, 0.017452383, 0, 39.028, 0)
 shadow_enabled = true
+
+[node name="death_scene" parent="." instance=ExtResource("1_8oig7")]
 
 [node name="pause_menu" parent="." instance=ExtResource("1_qly5v")]
 

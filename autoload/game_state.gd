@@ -106,8 +106,12 @@ func respawn_player() -> void:
 		# Player missing or freed → just spawn new
 		spawn_player()
 
+signal player_died(reason: String)
+
 func kill_player(reason: String = "") -> void:
 	print(reason)
+	
+	emit_signal("player_died", reason)
 	# Defer to avoid doing this inside physics callbacks (e.g., Area3D.body_entered)
 	
 	# OPTIONAL: add some fade effects or game over UI
