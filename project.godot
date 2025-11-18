@@ -12,6 +12,8 @@ config_version=5
 
 config/name="NABG"
 run/main_scene="uid://xausg38qpt1e"
+config/use_custom_user_dir=true
+config/custom_user_dir_name="AnotherBackroomsGame"
 config/features=PackedStringArray("4.5", "Forward Plus")
 config/icon="res://icon.svg"
 
