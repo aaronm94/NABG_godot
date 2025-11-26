@@ -1,0 +1,3 @@
+[gd_scene format=3 uid="uid://dygntcs20pbgx"]
+
+[node name="Chaser" type="Node3D"]

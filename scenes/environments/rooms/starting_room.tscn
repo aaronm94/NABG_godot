@@ -3,10 +3,13 @@
 [ext_resource type="Script" uid="uid://bvuls78ovreqc" path="res://addons/SimpleDungeons/DungeonRoom3D.gd" id="1_af07u"]
 [ext_resource type="Texture2D" uid="uid://bxbtgil61x5sx" path="res://addons/SimpleDungeons/sample_assets/kenney-orange-checkerboard-cc0.png" id="3_3km8d"]
 [ext_resource type="Material" uid="uid://c5geficuo6gqi" path="res://textures/corridor_walls.tres" id="4_uvoeg"]
-[ext_resource type="PackedScene" uid="uid://c7wia80o1eu3v" path="res://scenes/environments/models/floor.tscn" id="5_r6moe"]
-[ext_resource type="PackedScene" uid="uid://bdu6qrj8u4qei" path="res://scenes/environments/models/ceiling.tscn" id="6_revfa"]
+[ext_resource type="PackedScene" uid="uid://c7wia80o1eu3v" path="res://scenes/environments/room_parts/floor.tscn" id="5_r6moe"]
+[ext_resource type="PackedScene" uid="uid://bdu6qrj8u4qei" path="res://scenes/environments/room_parts/ceiling.tscn" id="6_revfa"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_57r0k"]
+emission_enabled = true
+emission = Color(1, 1, 1, 1)
+emission_energy_multiplier = 0.5
 
 [sub_resource type="TextMesh" id="TextMesh_uvoeg"]
 text = "1. Find the Button Room
@@ -26,7 +29,7 @@ min_count = 1
 max_count = 1
 
 [node name="Instruction" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, -1.75, -4.5)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, -2.25, -4.5)
 material_override = SubResource("StandardMaterial3D_57r0k")
 mesh = SubResource("TextMesh_uvoeg")
 
@@ -45,23 +48,23 @@ material = ExtResource("4_uvoeg")
 metadata/_edit_lock_ = true
 
 [node name="DOOR_F_CUT" type="CSGBox3D" parent="Shell"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2.75, -5.25)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2.875, -5.25)
 operation = 2
-size = Vector3(2, 4.25, 1)
+size = Vector3(2, 4, 1)
 material = ExtResource("4_uvoeg")
 metadata/_edit_lock_ = true
 
 [node name="DOOR_R_CUT" type="CSGBox3D" parent="Shell"]
-transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 4.879, -2.75, 0)
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 4.879, -2.875, 0)
 operation = 2
-size = Vector3(2, 4.25, 0.3)
+size = Vector3(2, 4, 0.3)
 material = ExtResource("4_uvoeg")
 metadata/_edit_lock_ = true
 
 [node name="DOOR_L_CUT" type="CSGBox3D" parent="Shell"]
-transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -5, -2.75, 0)
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -5, -2.875, 0)
 operation = 2
-size = Vector3(2, 4.25, 1)
+size = Vector3(2, 4, 1)
 material = ExtResource("4_uvoeg")
 metadata/_edit_lock_ = true
 

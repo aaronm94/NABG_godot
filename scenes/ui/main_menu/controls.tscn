@@ -1,0 +1,349 @@
+[gd_scene load_steps=4 format=3 uid="uid://bjd7yku1di1yi"]
+
+[ext_resource type="Script" uid="uid://dknb1nb3fg52g" path="res://scenes/ui/main_menu/controls.gd" id="1_3u1qw"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wjdfu"]
+bg_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+shadow_size = 1
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_oje7a"]
+bg_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_3u1qw")
+metadata/_edit_lock_ = true
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+metadata/_edit_lock_ = true
+
+[node name="Controls" type="Label" parent="ColorRect"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -298.0
+offset_top = 43.0
+offset_right = 292.0
+offset_bottom = 98.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 40
+text = "Controls"
+horizontal_alignment = 1
+metadata/_edit_lock_ = true
+
+[node name="Start" type="Button" parent="ColorRect"]
+layout_mode = 0
+offset_left = 512.0
+offset_top = 442.0
+offset_right = 641.0
+offset_bottom = 531.0
+size_flags_vertical = 3
+theme_override_colors/font_color = Color(0.7497807, 0.7497797, 0.74977994, 1)
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 30
+theme_override_styles/normal = SubResource("StyleBoxFlat_wjdfu")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_wjdfu")
+theme_override_styles/hover = SubResource("StyleBoxFlat_wjdfu")
+text = "START"
+metadata/_edit_lock_ = true
+
+[node name="Movement" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -419.0
+offset_top = 189.0
+offset_right = -111.0
+offset_bottom = 244.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 40
+text = "Movement"
+horizontal_alignment = 1
+metadata/_edit_lock_ = true
+
+[node name="W" type="Panel" parent="Movement"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.523
+anchor_top = 0.5
+anchor_right = 0.523
+anchor_bottom = 0.5
+offset_left = -29.084
+offset_top = 53.5
+offset_right = 10.916
+offset_bottom = 93.5
+theme_override_styles/panel = SubResource("StyleBoxFlat_oje7a")
+metadata/_edit_lock_ = true
+
+[node name="W" type="Label" parent="Movement/W"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -21.0
+offset_top = -2.0
+offset_right = 21.0
+offset_bottom = 40.0
+grow_horizontal = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 30
+text = "W"
+horizontal_alignment = 1
+metadata/_edit_lock_ = true
+
+[node name="A" type="Panel" parent="Movement"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -74.0
+offset_top = 104.5
+offset_right = -34.0
+offset_bottom = 144.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_oje7a")
+metadata/_edit_lock_ = true
+
+[node name="A" type="Label" parent="Movement/A"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -22.0
+offset_right = 20.0
+offset_bottom = 42.0
+grow_horizontal = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 30
+text = "A"
+horizontal_alignment = 1
+metadata/_edit_lock_ = true
+
+[node name="S" type="Panel" parent="Movement"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -22.0
+offset_top = 104.5
+offset_right = 18.0
+offset_bottom = 144.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_oje7a")
+metadata/_edit_lock_ = true
+
+[node name="S" type="Label" parent="Movement/S"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -21.0
+offset_top = -1.0
+offset_right = 21.0
+offset_bottom = 41.0
+grow_horizontal = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 30
+text = "S"
+horizontal_alignment = 1
+metadata/_edit_lock_ = true
+
+[node name="D" type="Panel" parent="Movement"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 31.0
+offset_top = 104.5
+offset_right = 71.0
+offset_bottom = 144.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_oje7a")
+metadata/_edit_lock_ = true
+
+[node name="D" type="Label" parent="Movement/D"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -21.0
+offset_top = -1.0
+offset_right = 21.0
+offset_bottom = 41.0
+grow_horizontal = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 30
+text = "D"
+horizontal_alignment = 1
+metadata/_edit_lock_ = true
+
+[node name="Interact" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = 117.0
+offset_top = 147.0
+offset_right = 320.0
+offset_bottom = 220.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 40
+text = "Interact"
+horizontal_alignment = 1
+metadata/_edit_lock_ = true
+
+[node name="E" type="Panel" parent="Interact"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.45200002
+anchor_right = 0.5
+anchor_bottom = 0.45200002
+offset_left = 191.5
+offset_top = -18.996002
+offset_right = 231.5
+offset_bottom = 21.003998
+theme_override_styles/panel = SubResource("StyleBoxFlat_oje7a")
+metadata/_edit_lock_ = true
+
+[node name="E" type="Label" parent="Interact/E"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -21.0
+offset_top = -1.0
+offset_right = 21.0
+offset_bottom = 41.0
+grow_horizontal = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 30
+text = "E"
+horizontal_alignment = 1
+metadata/_edit_lock_ = true
+
+[node name="Sprint" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = 112.0
+offset_top = 243.0
+offset_right = 318.0
+offset_bottom = 313.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 40
+text = "Sprint"
+horizontal_alignment = 1
+metadata/_edit_lock_ = true
+
+[node name="Shift" type="Panel" parent="Sprint"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.47100002
+anchor_right = 0.5
+anchor_bottom = 0.47100002
+offset_left = 168.0
+offset_top = -15.970001
+offset_right = 257.0
+offset_bottom = 24.029999
+theme_override_styles/panel = SubResource("StyleBoxFlat_oje7a")
+metadata/_edit_lock_ = true
+
+[node name="Shift" type="Label" parent="Sprint/Shift"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.47100002
+anchor_right = 0.5
+anchor_bottom = 0.47100002
+offset_left = -33.5
+offset_top = -19.84
+offset_right = 33.5
+offset_bottom = 22.16
+grow_horizontal = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 30
+text = "Shift"
+horizontal_alignment = 1
+metadata/_edit_lock_ = true
+
+[node name="Jump" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = 155.0
+offset_top = 335.0
+offset_right = 279.0
+offset_bottom = 396.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 40
+text = "Jump"
+horizontal_alignment = 1
+metadata/_edit_lock_ = true
+
+[node name="SpaceBar" type="Panel" parent="Jump"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 133.0
+offset_top = -18.500008
+offset_right = 286.0
+offset_bottom = 21.499992
+theme_override_styles/panel = SubResource("StyleBoxFlat_oje7a")
+metadata/_edit_lock_ = true
+
+[node name="SpaceBar" type="Label" parent="Jump/SpaceBar"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -72.0
+offset_top = -1.0
+offset_right = 71.0
+offset_bottom = 41.0
+grow_horizontal = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 30
+text = "Space Bar"
+horizontal_alignment = 1
+metadata/_edit_lock_ = true
+
+[connection signal="pressed" from="ColorRect/Start" to="." method="_begin_pressed"]

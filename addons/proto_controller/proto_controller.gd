@@ -12,7 +12,7 @@ signal health_changed(new_value: float)
 # --- Resources / stamina ---
 @export var max_stamina: float = 100.0
 @export var stamina: float = 100.0
-@export var stamina_cost_per_sec: float = 50.0
+@export var stamina_cost_per_sec: float = 25.0
 @export var stamina_regen_per_sec: float = 10.0
 @export var stamina_recovery_threshold: float = 25.0
 var is_sprinting := false

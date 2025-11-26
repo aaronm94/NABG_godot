@@ -1,13 +1,36 @@
-[gd_scene load_steps=6 format=3 uid="uid://dyymtiu874cpb"]
+[gd_scene load_steps=15 format=3 uid="uid://dyymtiu874cpb"]
 
 [ext_resource type="Script" uid="uid://bvuls78ovreqc" path="res://addons/SimpleDungeons/DungeonRoom3D.gd" id="1_itbvt"]
 [ext_resource type="Texture2D" uid="uid://i7rtr0ewxm5j" path="res://addons/SimpleDungeons/sample_assets/blue-checkerboard-cc0.png" id="2_8onyl"]
+[ext_resource type="Material" uid="uid://c5geficuo6gqi" path="res://textures/corridor_walls.tres" id="3_8onyl"]
 [ext_resource type="PackedScene" uid="uid://c2whfv8y5vqye" path="res://scenes/utilities/kill_volume_pit.tscn" id="3_pfgl3"]
+[ext_resource type="PackedScene" uid="uid://c7wia80o1eu3v" path="res://scenes/environments/room_parts/floor.tscn" id="4_7sffh"]
+[ext_resource type="Material" uid="uid://u3j03tfrahkm" path="res://textures/floor.tres" id="5_umwxj"]
+[ext_resource type="Texture2D" uid="uid://dqvvgextswxru" path="res://addons/backrooms_textures/ceiling_tiles/ceiling_tiles_color.png" id="7_3eeew"]
+[ext_resource type="Texture2D" uid="uid://dtvbgqw3taeqg" path="res://addons/backrooms_textures/ceiling_tiles/ceiling_tiles_normal.png" id="8_jeb5f"]
+[ext_resource type="Texture2D" uid="uid://ddsjgv0h60x4b" path="res://addons/backrooms_textures/ceiling_tiles/ceiling_tiles_rough.png" id="9_wqqno"]
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_n0t7s"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_itbvt"]
 albedo_texture = ExtResource("2_8onyl")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5iium"]
+cull_mode = 2
+albedo_texture = ExtResource("7_3eeew")
+roughness_texture = ExtResource("9_wqqno")
+normal_enabled = true
+normal_texture = ExtResource("8_jeb5f")
+uv1_scale = Vector3(0.2, 0.2, 0.2)
+uv1_offset = Vector3(0.125, 0, 0.25)
 uv1_triplanar = true
-uv1_world_triplanar = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_q4d18"]
+shading_mode = 2
+emission_enabled = true
+emission = Color(1, 0.9529412, 0.8156863, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_4aij0"]
+material = SubResource("StandardMaterial3D_q4d18")
+size = Vector3(3.8, 0.01, 12.44)
 
 [sub_resource type="GDScript" id="GDScript_17gef"]
 script/source = "@tool
@@ -35,88 +58,186 @@ script = ExtResource("1_itbvt")
 size_in_voxels = Vector3i(3, 1, 2)
 max_count = 3
 
-[node name="CSGBox3D" type="CSGBox3D" parent="."]
+[node name="Shell" type="CSGBox3D" parent="."]
 transform = Transform3D(-1, 0, -1.509958e-07, 0, 1, 0, 1.509958e-07, 0, -1, 0, 0, 0)
-material_override = SubResource("StandardMaterial3D_n0t7s")
 use_collision = true
-size = Vector3(30, 10, 20)
+size = Vector3(30, 9.75, 20)
+material = SubResource("StandardMaterial3D_itbvt")
 
-[node name="CSGBox3D3" type="CSGBox3D" parent="CSGBox3D"]
+[node name="InteriorCavity" type="CSGBox3D" parent="Shell"]
 operation = 2
-size = Vector3(29.5, 9.5, 19.5)
+size = Vector3(29.5, 9.75, 19.5)
+material = ExtResource("3_8onyl")
 
-[node name="DOOR?_B_CUT" type="CSGBox3D" parent="CSGBox3D"]
+[node name="DOOR?_B_CUT" type="CSGBox3D" parent="Shell"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2.75, 9.75)
 operation = 2
-size = Vector3(2, 4, 1)
+size = Vector3(2, 4.05, 1)
+material = ExtResource("3_8onyl")
 
-[node name="DOOR?_R2_CUT2" type="CSGBox3D" parent="CSGBox3D"]
+[node name="DOOR?_R2_CUT2" type="CSGBox3D" parent="Shell"]
 transform = Transform3D(-4.3711395e-08, 0, -1, 0, 1, 0, 1, 0, -4.3711395e-08, 15, -2.75, -5)
 operation = 2
-size = Vector3(2, 4, 1)
+size = Vector3(2, 4.05, 1)
+material = ExtResource("3_8onyl")
 
-[node name="DOOR?_R1_CUT2" type="CSGBox3D" parent="CSGBox3D"]
+[node name="DOOR?_R1_CUT2" type="CSGBox3D" parent="Shell"]
 transform = Transform3D(-4.3711395e-08, 0, -1, 0, 1, 0, 1, 0, -4.3711395e-08, 15, -2.75, 5)
 operation = 2
-size = Vector3(2, 4, 1)
+size = Vector3(2, 4.05, 1)
+material = ExtResource("3_8onyl")
 
-[node name="DOOR?_L2_CUT" type="CSGBox3D" parent="CSGBox3D"]
+[node name="DOOR?_L2_CUT" type="CSGBox3D" parent="Shell"]
 transform = Transform3D(-4.3711395e-08, 0, -1, 0, 1, 0, 1, 0, -4.3711395e-08, -15, -2.75, -5)
 operation = 2
-size = Vector3(2, 4, 1)
+size = Vector3(2, 4.05, 1)
+material = ExtResource("3_8onyl")
 
-[node name="DOOR?_L1_CUT" type="CSGBox3D" parent="CSGBox3D"]
+[node name="DOOR?_L1_CUT" type="CSGBox3D" parent="Shell"]
 transform = Transform3D(-4.3711395e-08, 0, -1, 0, 1, 0, 1, 0, -4.3711395e-08, -15, -2.75, 5)
 operation = 2
-size = Vector3(2, 4, 1)
+size = Vector3(2, 4.05, 1)
+material = ExtResource("3_8onyl")
 
-[node name="pitfall" type="CSGBox3D" parent="CSGBox3D"]
+[node name="Floor" parent="Shell" instance=ExtResource("4_7sffh")]
+transform = Transform3D(-1, 0, -1.509958e-07, 0, 1, 0, 1.509958e-07, 0, -1, 0, -4.85, 0)
+size = Vector3(30, 0.25, 20)
+
+[node name="pitfall" type="CSGBox3D" parent="Shell"]
 transform = Transform3D(1, 0, 1.4210855e-14, 0, 1, 0, -1.4210855e-14, 0, 1, 0, -5.5, 0)
 operation = 2
 size = Vector3(7, 2, 5)
+material = ExtResource("5_umwxj")
 
-[node name="pitfall7" type="CSGBox3D" parent="CSGBox3D"]
+[node name="pitfall7" type="CSGBox3D" parent="Shell"]
 transform = Transform3D(1, 0, 1.4210855e-14, 0, 1, 0, -1.4210855e-14, 0, 1, 5.684342e-14, -5.5, 6)
 operation = 2
 size = Vector3(7, 2, 5)
+material = ExtResource("5_umwxj")
 
-[node name="pitfall2" type="CSGBox3D" parent="CSGBox3D"]
+[node name="pitfall2" type="CSGBox3D" parent="Shell"]
 transform = Transform3D(1, 0, 1.4210855e-14, 0, 1, 0, -1.4210855e-14, 0, 1, -8, -5.5, 1.1368684e-13)
 operation = 2
 size = Vector3(7, 2, 5)
+material = ExtResource("5_umwxj")
 
-[node name="pitfall9" type="CSGBox3D" parent="CSGBox3D"]
+[node name="pitfall9" type="CSGBox3D" parent="Shell"]
 transform = Transform3D(1, 0, 1.4210855e-14, 0, 1, 0, -1.4210855e-14, 0, 1, -8, -5.5, 5.9999995)
 operation = 2
 size = Vector3(7, 2, 5)
+material = ExtResource("5_umwxj")
 
-[node name="pitfall3" type="CSGBox3D" parent="CSGBox3D"]
+[node name="pitfall3" type="CSGBox3D" parent="Shell"]
 transform = Transform3D(1, 0, 1.4210855e-14, 0, 1, 0, -1.4210855e-14, 0, 1, 8, -5.5, -1.1368684e-13)
 operation = 2
 size = Vector3(7, 2, 5)
+material = ExtResource("5_umwxj")
 
-[node name="pitfall8" type="CSGBox3D" parent="CSGBox3D"]
+[node name="pitfall8" type="CSGBox3D" parent="Shell"]
 transform = Transform3D(1, 0, 1.4210855e-14, 0, 1, 0, -1.4210855e-14, 0, 1, 8.000003, -5.5, 6)
 operation = 2
 size = Vector3(7, 2, 5)
+material = ExtResource("5_umwxj")
 
-[node name="pitfall4" type="CSGBox3D" parent="CSGBox3D"]
+[node name="pitfall4" type="CSGBox3D" parent="Shell"]
 transform = Transform3D(1, 0, 1.4210855e-14, 0, 1, 0, -1.4210855e-14, 0, 1, 8, -5.5, -5.9999995)
 operation = 2
 size = Vector3(7, 2, 5)
+material = ExtResource("5_umwxj")
 
-[node name="pitfall5" type="CSGBox3D" parent="CSGBox3D"]
+[node name="pitfall5" type="CSGBox3D" parent="Shell"]
 transform = Transform3D(1, 0, 1.4210855e-14, 0, 1, 0, -1.4210855e-14, 0, 1, -5.684342e-14, -5.5, -6)
 operation = 2
 size = Vector3(7, 2, 5)
+material = ExtResource("5_umwxj")
 
-[node name="pitfall6" type="CSGBox3D" parent="CSGBox3D"]
+[node name="pitfall6" type="CSGBox3D" parent="Shell"]
 transform = Transform3D(1, 0, 1.4210855e-14, 0, 1, 0, -1.4210855e-14, 0, 1, -8, -5.5, -6)
 operation = 2
 size = Vector3(7, 2, 5)
+material = ExtResource("5_umwxj")
 
-[node name="KillVolumePit" parent="CSGBox3D" instance=ExtResource("3_pfgl3")]
+[node name="KillVolumePit" parent="Shell" instance=ExtResource("3_pfgl3")]
 transform = Transform3D(1, 0, 1.4210855e-14, 0, 1, 0, -1.4210855e-14, 0, 1, 0, -7.9999995, 0)
+
+[node name="Ceiling" type="CSGBox3D" parent="Shell"]
+transform = Transform3D(-1, 0, -1.509958e-07, 0, 1, 0, 1.509958e-07, 0, -1, 0, 5, 0)
+use_collision = true
+size = Vector3(30, 0.25, 20)
+material = SubResource("StandardMaterial3D_5iium")
+
+[node name="CeilingLight" type="Node3D" parent="Shell/Ceiling"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.3, -0.21000004, 1.1475681e-06)
+
+[node name="FixtureMesh" type="MeshInstance3D" parent="Shell/Ceiling/CeilingLight"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.288078, 0, 0.0026225827)
+mesh = SubResource("BoxMesh_4aij0")
+
+[node name="LightMain" type="SpotLight3D" parent="Shell/Ceiling/CeilingLight"]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -6.3, 0, 0)
+light_energy = 10.0
+shadow_enabled = true
+shadow_bias = 0.05
+shadow_opacity = 0.6
+shadow_blur = 5.0
+spot_range = 17.0
+spot_attenuation = 2.0
+spot_angle = 89.99
+
+[node name="LightHalo" type="SpotLight3D" parent="Shell/Ceiling/CeilingLight"]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, -6.3, -0.15, 0)
+light_energy = 5.0
+spot_range = 10.0
+spot_attenuation = -0.5
+spot_angle = 90.0
+
+[node name="CeilingLight2" type="Node3D" parent="Shell/Ceiling"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15.05, -0.21, 0)
+
+[node name="FixtureMesh" type="MeshInstance3D" parent="Shell/Ceiling/CeilingLight2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.288078, 0, 0.0026225827)
+mesh = SubResource("BoxMesh_4aij0")
+
+[node name="LightMain" type="SpotLight3D" parent="Shell/Ceiling/CeilingLight2"]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -6.3, 0, 0)
+light_energy = 10.0
+shadow_enabled = true
+shadow_bias = 0.05
+shadow_opacity = 0.6
+shadow_blur = 5.0
+spot_range = 17.0
+spot_attenuation = 2.0
+spot_angle = 89.99
+
+[node name="LightHalo" type="SpotLight3D" parent="Shell/Ceiling/CeilingLight2"]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, -6.3, -0.15, 0)
+light_energy = 3.0
+spot_attenuation = -0.5
+spot_angle = 90.0
+
+[node name="CeilingLight3" type="Node3D" parent="Shell/Ceiling"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.45, -0.21, 0)
+
+[node name="FixtureMesh" type="MeshInstance3D" parent="Shell/Ceiling/CeilingLight3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.288078, 0, 0.0026225827)
+mesh = SubResource("BoxMesh_4aij0")
+
+[node name="LightMain" type="SpotLight3D" parent="Shell/Ceiling/CeilingLight3"]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -6.3, 0, 0)
+light_energy = 10.0
+shadow_enabled = true
+shadow_bias = 0.05
+shadow_opacity = 0.6
+shadow_blur = 5.0
+spot_range = 17.0
+spot_attenuation = 2.0
+spot_angle = 89.99
+
+[node name="LightHalo" type="SpotLight3D" parent="Shell/Ceiling/CeilingLight3"]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, -6.3, -0.15, 0)
+light_energy = 3.0
+spot_attenuation = -0.5
+spot_angle = 90.0
 
 [node name="RemoveUnusedDoors" type="Node" parent="."]
 script = SubResource("GDScript_17gef")

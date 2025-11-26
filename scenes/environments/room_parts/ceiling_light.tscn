@@ -1,0 +1,32 @@
+[gd_scene load_steps=3 format=3 uid="uid://l78mnmm25hj2"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_q4d18"]
+shading_mode = 2
+emission_enabled = true
+emission = Color(1, 0.9529412, 0.8156863, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_q4d18"]
+material = SubResource("StandardMaterial3D_q4d18")
+size = Vector3(1.199, 0.01, 2.452)
+
+[node name="CeilingLight" type="Node3D"]
+
+[node name="FixtureMesh" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 7.1054274e-15, 0, 1, 0, -7.1054274e-15, 0, 1, 0, 0, 0)
+mesh = SubResource("BoxMesh_q4d18")
+
+[node name="LightMain" type="SpotLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.3711385e-08, 0.99999994, 0, -0.99999994, -4.3711385e-08, 0, 0, 0)
+light_energy = 3.0
+shadow_enabled = true
+shadow_bias = 0.05
+shadow_opacity = 0.6
+shadow_blur = 5.0
+spot_range = 8.0
+spot_attenuation = 2.0
+spot_angle = 89.99
+
+[node name="LightHalo" type="SpotLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, -0.15, 0)
+light_energy = 3.0
+spot_angle = 90.0
