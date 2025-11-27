@@ -1,6 +1,6 @@
-[gd_scene load_steps=4 format=3 uid="uid://bjd7yku1di1yi"]
+[gd_scene load_steps=4 format=3 uid="uid://dwcc3wwrd5lph"]
 
-[ext_resource type="Script" uid="uid://dknb1nb3fg52g" path="res://scenes/ui/main_menu/controls.gd" id="1_3u1qw"]
+[ext_resource type="Script" path="res://scenes/ui/main_menu/controls.gd" id="1_3u1qw"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wjdfu"]
 bg_color = Color(0, 0, 0, 1)
@@ -25,7 +25,6 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_3u1qw")
-metadata/_edit_lock_ = true
 
 [node name="ColorRect" type="ColorRect" parent="."]
 layout_mode = 1
@@ -42,22 +41,29 @@ layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -298.0
-offset_top = 43.0
-offset_right = 292.0
-offset_bottom = 98.0
+offset_left = -81.5
+offset_top = 50.0
+offset_right = 81.5
+offset_bottom = 105.0
 grow_horizontal = 2
 theme_override_font_sizes/font_size = 40
 text = "Controls"
 horizontal_alignment = 1
 metadata/_edit_lock_ = true
 
-[node name="Start" type="Button" parent="ColorRect"]
-layout_mode = 0
-offset_left = 512.0
-offset_top = 442.0
-offset_right = 641.0
-offset_bottom = 531.0
+[node name="BEGIN" type="Button" parent="ColorRect"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -45.5
+offset_top = -148.0
+offset_right = 45.5
+offset_bottom = -106.0
+grow_horizontal = 2
+grow_vertical = 0
 size_flags_vertical = 3
 theme_override_colors/font_color = Color(0.7497807, 0.7497797, 0.74977994, 1)
 theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
@@ -66,7 +72,7 @@ theme_override_font_sizes/font_size = 30
 theme_override_styles/normal = SubResource("StyleBoxFlat_wjdfu")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_wjdfu")
 theme_override_styles/hover = SubResource("StyleBoxFlat_wjdfu")
-text = "START"
+text = "BEGIN"
 metadata/_edit_lock_ = true
 
 [node name="Movement" type="Label" parent="."]
@@ -209,22 +215,23 @@ text = "D"
 horizontal_alignment = 1
 metadata/_edit_lock_ = true
 
-[node name="Interact" type="Label" parent="."]
-layout_mode = 1
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = 117.0
-offset_top = 147.0
-offset_right = 320.0
-offset_bottom = 220.0
-grow_horizontal = 2
+[node name="KeyMaps" type="VBoxContainer" parent="."]
+layout_mode = 0
+offset_left = 635.0
+offset_top = 185.0
+offset_right = 787.0
+offset_bottom = 358.0
+alignment = 1
+metadata/_edit_lock_ = true
+
+[node name="Interact" type="Label" parent="KeyMaps"]
+layout_mode = 2
 theme_override_font_sizes/font_size = 40
 text = "Interact"
 horizontal_alignment = 1
 metadata/_edit_lock_ = true
 
-[node name="E" type="Panel" parent="Interact"]
+[node name="E" type="Panel" parent="KeyMaps/Interact"]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.5
@@ -238,7 +245,7 @@ offset_bottom = 21.003998
 theme_override_styles/panel = SubResource("StyleBoxFlat_oje7a")
 metadata/_edit_lock_ = true
 
-[node name="E" type="Label" parent="Interact/E"]
+[node name="E" type="Label" parent="KeyMaps/Interact/E"]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
@@ -254,22 +261,14 @@ text = "E"
 horizontal_alignment = 1
 metadata/_edit_lock_ = true
 
-[node name="Sprint" type="Label" parent="."]
-layout_mode = 1
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = 112.0
-offset_top = 243.0
-offset_right = 318.0
-offset_bottom = 313.0
-grow_horizontal = 2
+[node name="Sprint" type="Label" parent="KeyMaps"]
+layout_mode = 2
 theme_override_font_sizes/font_size = 40
 text = "Sprint"
 horizontal_alignment = 1
 metadata/_edit_lock_ = true
 
-[node name="Shift" type="Panel" parent="Sprint"]
+[node name="Shift" type="Panel" parent="KeyMaps/Sprint"]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.5
@@ -283,7 +282,7 @@ offset_bottom = 24.029999
 theme_override_styles/panel = SubResource("StyleBoxFlat_oje7a")
 metadata/_edit_lock_ = true
 
-[node name="Shift" type="Label" parent="Sprint/Shift"]
+[node name="Shift" type="Label" parent="KeyMaps/Sprint/Shift"]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.5
@@ -301,22 +300,14 @@ text = "Shift"
 horizontal_alignment = 1
 metadata/_edit_lock_ = true
 
-[node name="Jump" type="Label" parent="."]
-layout_mode = 1
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = 155.0
-offset_top = 335.0
-offset_right = 279.0
-offset_bottom = 396.0
-grow_horizontal = 2
+[node name="Jump" type="Label" parent="KeyMaps"]
+layout_mode = 2
 theme_override_font_sizes/font_size = 40
 text = "Jump"
 horizontal_alignment = 1
 metadata/_edit_lock_ = true
 
-[node name="SpaceBar" type="Panel" parent="Jump"]
+[node name="SpaceBar" type="Panel" parent="KeyMaps/Jump"]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.5
@@ -330,7 +321,7 @@ offset_bottom = 21.499992
 theme_override_styles/panel = SubResource("StyleBoxFlat_oje7a")
 metadata/_edit_lock_ = true
 
-[node name="SpaceBar" type="Label" parent="Jump/SpaceBar"]
+[node name="SpaceBar" type="Label" parent="KeyMaps/Jump/SpaceBar"]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
@@ -346,4 +337,4 @@ text = "Space Bar"
 horizontal_alignment = 1
 metadata/_edit_lock_ = true
 
-[connection signal="pressed" from="ColorRect/Start" to="." method="_begin_pressed"]
+[connection signal="pressed" from="ColorRect/BEGIN" to="." method="_begin_pressed"]

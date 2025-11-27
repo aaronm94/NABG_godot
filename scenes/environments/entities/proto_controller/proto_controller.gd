@@ -7,7 +7,7 @@ extends CharacterBody3D
 
 # ---- Signals----
 signal stamina_changed(new_value: float)
-signal health_changed(new_value: float)
+#signal health_changed(new_value: float)
 
 # --- Resources / stamina ---
 @export var max_stamina: float = 100.0
@@ -35,6 +35,9 @@ var health : float = 100.0
 @export var decel_rate:= 20.0
 @export var jump_velocity := 4.0
 @export var freefly_speed := 25.0
+var walk_step_interval := 0.40
+var sprint_step_interval := 0.20
+var _step_timer := 0.0
 
 # ---- Stair-friendly defaults (tweak to taste) ----
 @export var step_max_height: float = 0.75   # max ledge height you’ll “auto step”
@@ -53,7 +56,11 @@ var freeflying := false
 var g_value := 9.8
 var g_vec := Vector3.DOWN * 9.8
 
+var _current_interactable: Node = null
+
+
 func _ready() -> void:
+	randomize()
 	# let HUD find us
 	add_to_group("player")
 	
@@ -91,7 +98,7 @@ func _input_vec() -> Vector2:
 	return Input.get_vector("left", "right", "forward", "back")
 
 func _move_dir_from_body(iv: Vector2) -> Vector3:
-	var basis := global_transform.basis
+	#var basis := global_transform.basis
 	var dir := (basis.x * iv.x + basis.z * iv.y)
 	dir.y = 0.0
 	return dir.normalized() if dir.length() > 0.001 else Vector3.ZERO
@@ -165,7 +172,29 @@ func _physics_process(delta: float) -> void:
 		velocity.x = 0.0
 		velocity.z = 0.0
 
+	var on_ground := is_on_floor()
+	var moving := dir_body != Vector3.ZERO and can_move
+
+	if on_ground and moving:
+		var interval: float = walk_step_interval
+		var pitch: float = 1.0
+
+		if can_sprint and is_sprinting:
+			interval = sprint_step_interval
+			pitch = 1.15
+
+		_step_timer -= delta
+
+		if _step_timer <= 0.0:
+			AudioManager.play_random_footstep(pitch + randf_range(-0.03, 0.03))
+			_step_timer = interval
+	else:
+		# Reset so first step fires immediately when you start moving again
+		_step_timer = 0.0
+
 	move_and_slide()
+	
+	_update_interact_highlight()
 
 func rotate_look(delta_mouse: Vector2) -> void:
 	# pitch (X) on head
@@ -192,21 +221,40 @@ func _set_freefly(enable: bool) -> void:
 
 # --- Interact Logic ---
 func _input(event: InputEvent) -> void:
-	if Input.is_action_just_pressed("interact"):
+	if event.is_action_pressed("interact"):
 		_try_interact()
 
 func _try_interact() -> void:
+	var target := _get_interact_target()
+	if target and target.has_method("interact"):
+		target.interact()
+
+func _get_interact_target() -> Node:
 	if interact_ray == null or not interact_ray.is_colliding():
-		return
+		return null
 
 	var target := interact_ray.get_collider()
 	if target == null:
-		return
+		return null
 
-	# climb to parent until we find something interactable
 	var walker := target
 	while walker and not walker.has_method("interact"):
 		walker = walker.get_parent()
 
-	if walker and walker.has_method("interact"):
-		walker.interact()
+	return walker
+
+func _update_interact_highlight() -> void:
+	var new_target := _get_interact_target()
+
+	if new_target == _current_interactable:
+		return
+
+	# Clear old highlight
+	if _current_interactable and _current_interactable.has_method("set_highlighted"):
+		_current_interactable.set_highlighted(false)
+
+	_current_interactable = new_target
+
+	# Apply highlight to new one
+	if _current_interactable and _current_interactable.has_method("set_highlighted"):
+		_current_interactable.set_highlighted(true)

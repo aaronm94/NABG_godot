@@ -1,66 +1,96 @@
 # autoload/game_state.gd
 extends Node
 
-var current_scene = null
+# ================================
+#          GAME MODE STATE
+# ================================
+enum GameMode { GAMEPLAY, PAUSED, DEATH, MENU }
+
+var mode: GameMode = GameMode.GAMEPLAY
+
+signal mode_changed(new_mode: GameMode)
+signal player_died(reason: String)
+signal level_completed
+
+# ================================
+#          SCENE / PLAYER
+# ================================
+var current_scene: Node = null
 var player: Node3D
 var active_spawn_point: Node3D = null
 
-const PlayerScene: PackedScene = preload("res://addons/proto_controller/proto_controller.tscn")
+const PlayerScene: PackedScene = preload("res://scenes/environments/entities/proto_controller/proto_controller.tscn")
+const MAIN_MENU_SCENE_PATH := "res://scenes/ui/main_menu/main_menu.tscn"
 
 func _ready() -> void:
 	current_scene = get_tree().current_scene
 	process_mode = Node.PROCESS_MODE_ALWAYS
 
+
 # ===================================================
-#					SCENE CHANGE						
+#                  SCENE CHANGE
 # ===================================================
 
 func goto_scene(path: String) -> void:
+	# Always unpause when changing scenes
 	if get_tree().paused:
 		get_tree().paused = false
 		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
-	
+
 	var packed := ResourceLoader.load(path)
 	if packed == null or not (packed is PackedScene):
 		push_error("Not a PackedScene: %s" % path)
 		return
-	
+
 	var next := (packed as PackedScene).instantiate()
 	call_deferred("_swap_scene", next)
-	
-func _swap_scene(next: Node) -> void:
+
+func _swap_scene(next: Node) -> void: # RECHECK FOR USE CASE (NEXT LEVEL or HARD RESTART)
 	if is_instance_valid(current_scene):
 		current_scene.queue_free()
+
 	get_tree().root.add_child(next)
 	get_tree().current_scene = next
 	current_scene = next
 
-func quit() -> void:
-	get_tree().quit()
+	# When we load a gameplay scene, assume gameplay mode by default.
+	# (Main menu can explicitly set mode = GameMode.MENU if needed.)
+	if mode != GameMode.MENU:
+		mode = GameMode.GAMEPLAY
+
 
 # ===================================================
-#					PAUSE LOGIC							
+#                  PAUSE LOGIC
 # ===================================================
-
-signal paused_changed(paused: bool)
-
-func toggle_pause() -> void:
-	set_paused(!get_tree().paused)
 
 func set_paused(p: bool) -> void:
 	if get_tree().paused == p:
 		return
 	get_tree().paused = p
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE if p else Input.MOUSE_MODE_CAPTURED)
-	paused_changed.emit(p)
 
-func _unhandled_input(e):
+func toggle_pause() -> void:
+	# Only allowed between GAMEPLAY <-> PAUSED
+	match mode:
+		GameMode.GAMEPLAY:
+			set_paused(true)
+			_set_mode(GameMode.PAUSED)
+		GameMode.PAUSED:
+			set_paused(false)
+			_set_mode(GameMode.GAMEPLAY)
+		_:
+			# Ignore pause input in DEATH or MENU
+			pass
+
+func _unhandled_input(e: InputEvent) -> void:
 	if e.is_action_pressed("pause"):
 		toggle_pause()
 
+
 # ===================================================
-#					SPAWN LOGIC							
+#                  SPAWN LOGIC
 # ===================================================
+
 func set_active_spawn_point(spawn: Node3D) -> void:
 	if spawn and is_instance_valid(spawn):
 		active_spawn_point = spawn
@@ -70,7 +100,7 @@ func get_spawn_point() -> Node3D:
 	if active_spawn_point and is_instance_valid(active_spawn_point):
 		return active_spawn_point
 
-	# 2) fallback to start spwawn point
+	# 2) fallback to start spawn point
 	var points := get_tree().get_nodes_in_group("start_spawn_point")
 	if points.size() > 0:
 		return points[0] as Node3D
@@ -82,19 +112,21 @@ func spawn_player() -> void:
 	if sp == null:
 		push_error("No spawn point found.")
 		return
-	
-	# Instantiate a new player and place them at the spawn point
+
 	player = PlayerScene.instantiate()
 	sp.get_parent().add_child(player)
 	player.global_transform.origin = sp.global_transform.origin
 	print("Player spawned at:", player.global_transform.origin)
 
+	_set_mode(GameMode.GAMEPLAY)
+
 func respawn_player() -> void:
+	# Non-fatal reset (e.g., checkpoints) can still use this.
 	var sp := get_spawn_point()
 	if sp == null:
 		push_error("No spawn point found for respawn.")
 		return
-	# If player exist and valid -> respawn
+
 	if is_instance_valid(player):
 		player.global_transform.origin = sp.global_transform.origin
 		if "velocity" in player:
@@ -103,21 +135,70 @@ func respawn_player() -> void:
 			player.reset_on_respawn()
 		print("Player respawned at:", player.global_transform.origin)
 	else:
-		# Player missing or freed → just spawn new
 		spawn_player()
 
-signal player_died(reason: String)
+
+# ===================================================
+#                  DEATH / LEVEL
+# ===================================================
 
 func kill_player(reason: String = "") -> void:
-	print(reason)
-	
-	emit_signal("player_died", reason)
-	# Defer to avoid doing this inside physics callbacks (e.g., Area3D.body_entered)
-	
-	# OPTIONAL: add some fade effects or game over UI
-	call_deferred("spawn_player")
-	
-signal level_completed
+	# Central death entry point (called by killzones, enemies, etc.)
+	if mode == GameMode.DEATH:
+		return # ignore duplicate kills in the same death flow
+
+	print("[GameState] Player died, reason:", reason)
+	player_died.emit(reason)
+
+	set_paused(true)
+	_set_mode(GameMode.DEATH)
 
 func level_finished() -> void:
-	emit_signal("level_completed")
+	level_completed.emit()
+
+
+# ===================================================
+#            MENU ACTIONS
+# ===================================================
+
+func restart_level() -> void:
+	# Soft restart: respawn player at active spawn point
+	# LOOK INTO HARD RESET FOR PROCEDURAL GENERATION
+	set_paused(false)
+	_set_mode(GameMode.GAMEPLAY)
+	respawn_player()
+
+func go_to_main_menu() -> void:
+	if MAIN_MENU_SCENE_PATH == "":
+		push_error("MAIN_MENU_SCENE_PATH is not set.")
+		return
+
+	set_paused(false)
+	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+	_set_mode(GameMode.MENU)
+	goto_scene(MAIN_MENU_SCENE_PATH)
+
+func quit() -> void:
+	get_tree().quit()
+
+# ===================================================
+#                  MODE SET
+# ===================================================
+
+func _set_mode(new_mode: GameMode) -> void:
+	if mode == new_mode:
+		return
+	mode = new_mode
+	mode_changed.emit(mode)
+
+	# Drive music here based on global mode
+	match mode:
+		GameMode.GAMEPLAY:
+			AudioManager.play_music_by_id("level1")
+		GameMode.DEATH:
+			AudioManager.play_music_by_id("death")
+		GameMode.MENU:
+			AudioManager.play_music_by_id("menu")
+		GameMode.PAUSED:
+			# Usually keep current track; no change
+			pass

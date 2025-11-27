@@ -19,7 +19,7 @@ config/icon="res://icon.svg"
 
 GameState="*res://autoload/game_state.gd"
 GameActions="*res://autoload/game_actions.gd"
-MusicPlayer="*res://autoload/music_player.gd"
+AudioManager="*res://autoload/audio_manager.gd"
 AudioSettings="*res://autoload/audio_settings.gd"
 
 [dotnet]

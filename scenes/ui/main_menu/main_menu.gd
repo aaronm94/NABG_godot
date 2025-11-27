@@ -4,7 +4,7 @@ extends Control
 func _ready() -> void:
 	get_tree().paused = false
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
-	MusicPlayer.play_menu()
+	AudioManager.play_music_by_id("menu")
 
 func startbutton_pressed():
 	GameState.goto_scene("res://scenes/ui/main_menu/controls.tscn")

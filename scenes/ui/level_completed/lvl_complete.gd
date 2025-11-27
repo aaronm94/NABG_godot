@@ -14,11 +14,11 @@ func _ready() -> void:
 	
 
 func _on_level_completed()->void:
-	$"Control/Completed Text".modulate.a = 1
+	$"Control/CompletedText".modulate.a = 1
 	visible = true
 	
 	var tween = create_tween()
-	tween.tween_property($"Control/Completed Text", "modulate:a", 0, LEVEL_COMPLETED_DURATION)
+	tween.tween_property($"Control/CompletedText", "modulate:a", 0, LEVEL_COMPLETED_DURATION)
 	timer.start()
 
 

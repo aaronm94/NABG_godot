@@ -18,12 +18,13 @@ mesh = SubResource("BoxMesh_q4d18")
 [node name="LightMain" type="SpotLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, -4.3711385e-08, 0.99999994, 0, -0.99999994, -4.3711385e-08, 0, 0, 0)
 light_energy = 3.0
+light_volumetric_fog_energy = 0.5
 shadow_enabled = true
 shadow_bias = 0.05
 shadow_opacity = 0.6
 shadow_blur = 5.0
 spot_range = 8.0
-spot_attenuation = 2.0
+spot_attenuation = 2.25
 spot_angle = 89.99
 
 [node name="LightHalo" type="SpotLight3D" parent="."]
