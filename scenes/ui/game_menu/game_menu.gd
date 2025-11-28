@@ -1,10 +1,11 @@
 extends CanvasLayer
 
-enum MenuMode { NONE, PAUSE, DEATH }
+enum MenuMode { NONE, PAUSE, DEATH, COMPLETE }
 var mode: MenuMode = MenuMode.NONE
 
 @onready var pause_root: Control = $PauseRoot
 @onready var death_root: Control = $DeathRoot
+@onready var level_complete_root: Control = $LevelCompleteRoot
 
 @onready var death_label: Label = $DeathRoot/ColorRect/DeathText
 @onready var death_buttons: VBoxContainer = $DeathRoot/ColorRect/VBoxContainer
@@ -27,6 +28,7 @@ func _ready() -> void:
 
 	pause_root.visible = false
 	death_root.visible = false
+	level_complete_root.visible = false
 	visible = false
 	
 	# Hide buttons initially
@@ -37,6 +39,10 @@ func _ready() -> void:
 	death_delay_timer.one_shot = true
 	death_delay_timer.wait_time = DEATH_MENU_DELAY
 
+	# --- Level complete root config for gui_input ---
+	level_complete_root.mouse_filter = Control.MOUSE_FILTER_STOP
+	level_complete_root.focus_mode = Control.FOCUS_ALL
+
 	# React to global state
 	GameState.mode_changed.connect(_on_mode_changed)
 	GameState.player_died.connect(_on_player_died)
@@ -44,6 +50,7 @@ func _ready() -> void:
 	# Auto-wire all buttons in both roots
 	_connect_buttons_recursive(pause_root)
 	_connect_buttons_recursive(death_root)
+	_connect_buttons_recursive(level_complete_root)
 
 # ===================================================
 #              BUTTON WIRING
@@ -66,6 +73,9 @@ func _on_button_pressed(button: Button) -> void:
 			_hide_menu()
 			GameState.restart_level()
 		"mainmenu":
+			_hide_menu()
+			GameState.go_to_main_menu()
+		"continue":
 			_hide_menu()
 			GameState.go_to_main_menu()
 		"quit":
@@ -114,12 +124,23 @@ func _on_death_delay_timeout() -> void:
 	if is_instance_valid(death_buttons):
 		death_buttons.visible = true
 
+func _show_level_complete() -> void:
+	# Switch to COMPLETE menu mode (internal to this CanvasLayer)
+	mode = MenuMode.COMPLETE
+
+	visible = true
+	pause_root.visible = false
+	death_root.visible = false
+	level_complete_root.visible = true
+
+	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+
 func _hide_menu() -> void:
 	mode = MenuMode.NONE
 	visible = false
 	pause_root.visible = false
 	death_root.visible = false
-
+	level_complete_root.visible = false
 
 # ===================================================
 #           SIGNAL HANDLERS FROM GAMESTATE
@@ -127,7 +148,7 @@ func _hide_menu() -> void:
 
 func _on_mode_changed(new_mode: GameState.GameMode) -> void:
 	match new_mode:
-		GameState.GameMode.PAUSED:
+		GameState.GameMode.PAUSE:
 			_show_pause_menu()
 
 		GameState.GameMode.GAMEPLAY:
@@ -137,6 +158,9 @@ func _on_mode_changed(new_mode: GameState.GameMode) -> void:
 
 		GameState.GameMode.DEATH:
 			_show_death_menu()
+
+		GameState.GameMode.COMPLETE:
+			_show_level_complete()
 
 		GameState.GameMode.MENU:
 			# Main menu likely uses separate UI; hide in-game menu

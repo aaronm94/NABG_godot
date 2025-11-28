@@ -1,10 +1,9 @@
-[gd_scene load_steps=28 format=3 uid="uid://bgiaye6ylw3wf"]
+[gd_scene load_steps=27 format=3 uid="uid://bgiaye6ylw3wf"]
 
 [ext_resource type="PackedScene" uid="uid://1d71q8xfd80b" path="res://scenes/ui/game_menu/game_menu.tscn" id="1_qly5v"]
 [ext_resource type="PackedScene" uid="uid://cfif8snkau54j" path="res://scenes/ui/hud/hud.tscn" id="2_8oig7"]
 [ext_resource type="Script" uid="uid://bkatc8s6l7ok8" path="res://addons/SimpleDungeons/DungeonGenerator3D.gd" id="3_bqwh3"]
 [ext_resource type="PackedScene" uid="uid://c30fpfkorbyl6" path="res://scenes/environments/rooms/corridor.tscn" id="4_4wwxj"]
-[ext_resource type="PackedScene" uid="uid://ccdp4geybgx4l" path="res://scenes/ui/level_completed/lvl_complete.tscn" id="4_8oig7"]
 [ext_resource type="PackedScene" uid="uid://dttq2icy387a1" path="res://scenes/environments/rooms/fake_room.tscn" id="5_wk4wi"]
 [ext_resource type="PackedScene" uid="uid://dyymtiu874cpb" path="res://scenes/environments/rooms/trap_room.tscn" id="6_0sxo3"]
 [ext_resource type="PackedScene" uid="uid://cwtuuabb65r2m" path="res://scenes/utilities/start_spawn_point.tscn" id="8_4dhhe"]
@@ -83,8 +82,6 @@ environment = SubResource("Environment_8oig7")
 [node name="GameMenu" parent="." instance=ExtResource("1_qly5v")]
 
 [node name="hud" parent="." instance=ExtResource("2_8oig7")]
-
-[node name="LvlComplete" parent="." instance=ExtResource("4_8oig7")]
 
 [node name="DungeonGenerator3D_A" type="Node3D" parent="."]
 script = ExtResource("3_bqwh3")

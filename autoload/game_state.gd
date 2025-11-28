@@ -4,13 +4,12 @@ extends Node
 # ================================
 #          GAME MODE STATE
 # ================================
-enum GameMode { GAMEPLAY, PAUSED, DEATH, MENU }
+enum GameMode { GAMEPLAY, PAUSE, DEATH, MENU, COMPLETE }
 
 var mode: GameMode = GameMode.GAMEPLAY
 
 signal mode_changed(new_mode: GameMode)
 signal player_died(reason: String)
-signal level_completed
 
 # ================================
 #          SCENE / PLAYER
@@ -74,8 +73,8 @@ func toggle_pause() -> void:
 	match mode:
 		GameMode.GAMEPLAY:
 			set_paused(true)
-			_set_mode(GameMode.PAUSED)
-		GameMode.PAUSED:
+			_set_mode(GameMode.PAUSE)
+		GameMode.PAUSE:
 			set_paused(false)
 			_set_mode(GameMode.GAMEPLAY)
 		_:
@@ -153,8 +152,17 @@ func kill_player(reason: String = "") -> void:
 	set_paused(true)
 	_set_mode(GameMode.DEATH)
 
-func level_finished() -> void:
-	level_completed.emit()
+func level_complete() -> void:
+	# Central entry point when the player finishes the level
+	# Ignore if already in a terminal state/post-game state
+	if mode == GameMode.DEATH or mode == GameMode.COMPLETE:
+		return
+
+	print("[GameState] Level completed")
+
+	# Freeze gameplay and switch to COMPLETE CanvasLayer
+	set_paused(true)
+	_set_mode(GameMode.COMPLETE)
 
 
 # ===================================================
@@ -199,6 +207,8 @@ func _set_mode(new_mode: GameMode) -> void:
 			AudioManager.play_music_by_id("death")
 		GameMode.MENU:
 			AudioManager.play_music_by_id("menu")
-		GameMode.PAUSED:
+		GameMode.COMPLETE:
+			AudioManager.play_music_by_id("complete")
+		GameMode.PAUSE:
 			# Usually keep current track; no change
 			pass

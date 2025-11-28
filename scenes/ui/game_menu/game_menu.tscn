@@ -107,4 +107,45 @@ text = "Quit"
 wait_time = 1.5
 one_shot = true
 
+[node name="LevelCompleteRoot" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+focus_mode = 2
+
+[node name="ColorRect" type="ColorRect" parent="LevelCompleteRoot"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+focus_mode = 2
+color = Color(0, 0, 0, 1)
+
+[node name="LevelCompleteText" type="Label" parent="LevelCompleteRoot/ColorRect"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0.2792572, 0.7630017, 1.1551381e-06, 1)
+theme_override_font_sizes/font_size = 60
+text = "Level Completed"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Continue" type="Button" parent="LevelCompleteRoot/ColorRect"]
+layout_mode = 0
+offset_left = 500.0
+offset_top = 450.0
+offset_right = 650.0
+offset_bottom = 485.0
+text = "Continue"
+
 [connection signal="timeout" from="DeathDelayTimer" to="." method="_on_death_delay_timeout"]
+[connection signal="gui_input" from="LevelCompleteRoot" to="." method="_on_level_complete_root_gui_input"]

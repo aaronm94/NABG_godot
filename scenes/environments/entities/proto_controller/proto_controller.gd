@@ -49,6 +49,8 @@ var _step_timer := 0.0
 @onready var collider: CollisionShape3D = $Collider
 @onready var interact_ray: RayCast3D = $Head/InteractRay
 
+@export var interact_label_ui: Label
+
 # ---- State ----
 var base_yaw := 0.0
 var look_rotation := Vector2.ZERO
@@ -226,18 +228,18 @@ func _input(event: InputEvent) -> void:
 
 func _try_interact() -> void:
 	var target := _get_interact_target()
-	if target and target.has_method("interact"):
+	if target:
 		target.interact()
 
 func _get_interact_target() -> Node:
 	if interact_ray == null or not interact_ray.is_colliding():
 		return null
 
-	var target := interact_ray.get_collider()
-	if target == null:
+	var hit := interact_ray.get_collider()
+	if hit == null:
 		return null
 
-	var walker := target
+	var walker: Node = hit
 	while walker and not walker.has_method("interact"):
 		walker = walker.get_parent()
 
@@ -247,6 +249,8 @@ func _update_interact_highlight() -> void:
 	var new_target := _get_interact_target()
 
 	if new_target == _current_interactable:
+		# Still looking at the same thing; just ensure label is correct
+		_update_interact_label()
 		return
 
 	# Clear old highlight
@@ -258,3 +262,20 @@ func _update_interact_highlight() -> void:
 	# Apply highlight to new one
 	if _current_interactable and _current_interactable.has_method("set_highlighted"):
 		_current_interactable.set_highlighted(true)
+
+	_update_interact_label()
+
+func _update_interact_label() -> void:
+	if interact_label_ui == null:
+		return
+
+	if _current_interactable == null:
+		interact_label_ui.visible = false
+		return
+
+	var label_text := "Press E"
+	if _current_interactable.has_method("get_interact_label"):
+		label_text = _current_interactable.get_interact_label()
+
+	interact_label_ui.text = label_text
+	interact_label_ui.visible = true

@@ -7,11 +7,13 @@ extends Node
 const MENU_TRACK: String  = "res://scenes/sounds/music/Soularflair - Soundscape 30 (dark, spooky, emotive).ogg"
 const DEATH_TRACK: String = "res://scenes/sounds/music/human gazpacho - 03 action for action's sake.ogg"
 const LEVEL1_TRACK: String = "res://scenes/sounds/music/horrorambiance3.ogg"
+const COMPLETE_TRACK: String = "res://scenes/sounds/music/fx-gentle-glass-bells-ringtone-320337.ogg"
 
 var music_tracks: Dictionary[String, String] = {
 	"menu": MENU_TRACK,
 	"death": DEATH_TRACK,
 	"level1": LEVEL1_TRACK,
+	"complete": COMPLETE_TRACK,
 }
 
 var _current_music_path: String = ""

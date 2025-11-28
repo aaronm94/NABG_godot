@@ -61,6 +61,11 @@ size = Vector3(2, 3, 0.15)
 script = ExtResource("3_qyi4a")
 metadata/_edit_lock_ = true
 
+[node name="HoverLabel" type="Label3D" parent="ExitDoor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4000001, 0.099999905)
+no_depth_test = true
+text = "ESCAPE 'E'"
+
 [node name="ExitSign" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, -2.1855694e-08, -0.5, 0, 0.5, -2.1855694e-08, 0, -1.2, -4.7000017)
 material_override = SubResource("StandardMaterial3D_qyi4a")
