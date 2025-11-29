@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=3 uid="uid://bgiaye6ylw3wf"]
+[gd_scene load_steps=28 format=3 uid="uid://bgiaye6ylw3wf"]
 
 [ext_resource type="PackedScene" uid="uid://1d71q8xfd80b" path="res://scenes/ui/game_menu/game_menu.tscn" id="1_qly5v"]
 [ext_resource type="PackedScene" uid="uid://cfif8snkau54j" path="res://scenes/ui/hud/hud.tscn" id="2_8oig7"]
@@ -19,6 +19,7 @@
 [ext_resource type="Texture2D" uid="uid://ddsjgv0h60x4b" path="res://addons/backrooms_textures/ceiling_tiles/ceiling_tiles_rough.png" id="16_kb625"]
 [ext_resource type="PackedScene" uid="uid://l78mnmm25hj2" path="res://scenes/environments/room_parts/ceiling_light.tscn" id="17_y14lo"]
 [ext_resource type="PackedScene" uid="uid://c7wia80o1eu3v" path="res://scenes/environments/room_parts/floor.tscn" id="18_uao87"]
+[ext_resource type="PackedScene" uid="uid://bs72ogkvdd7d6" path="res://scenes/environments/entities/proto_controller/proto_controller.tscn" id="20_2sogg"]
 
 [sub_resource type="GDScript" id="GDScript_8oig7"]
 resource_name = "level_one"
@@ -347,3 +348,5 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -25, 0, 45)
 
 [node name="Corridor_29" parent="DungeonGenerator3D_B/RoomsContainer" instance=ExtResource("4_4wwxj")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -25, 0, 5)
+
+[node name="ProtoController" parent="." instance=ExtResource("20_2sogg")]

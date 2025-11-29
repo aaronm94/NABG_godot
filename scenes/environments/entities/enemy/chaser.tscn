@@ -1,0 +1,50 @@
+[gd_scene load_steps=6 format=3 uid="uid://dygntcs20pbgx"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_cgka7"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_pd5g1"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hcq75"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_6tvvn"]
+radius = 0.5761719
+height = 2.1154785
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_cgka7"]
+radius = 1.1435312
+
+[node name="CharacterBody3D" type="CharacterBody3D"]
+
+[node name="BodyMesh" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.89717185, 0)
+mesh = SubResource("CapsuleMesh_cgka7")
+
+[node name="LeftEye" type="MeshInstance3D" parent="BodyMesh"]
+transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 0.44693476, 0.41312444, 0.17885107)
+mesh = SubResource("SphereMesh_pd5g1")
+surface_material_override/0 = SubResource("StandardMaterial3D_hcq75")
+
+[node name="RightEye" type="MeshInstance3D" parent="BodyMesh"]
+transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 0.44693476, 0.41312444, -0.18147407)
+mesh = SubResource("SphereMesh_pd5g1")
+surface_material_override/0 = SubResource("StandardMaterial3D_hcq75")
+
+[node name="BodyCollision" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8675537, 0)
+shape = SubResource("CapsuleShape3D_6tvvn")
+
+[node name="CameraOrigin" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.3281838, 0)
+
+[node name="SpringArm3D" type="SpringArm3D" parent="CameraOrigin"]
+spring_length = 2.0
+margin = 0.5
+
+[node name="Camera3D" type="Camera3D" parent="CameraOrigin/SpringArm3D"]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 0.50162077, 0, 0)
+
+[node name="Hitbox" type="Area3D" parent="."]
+
+[node name="HitBoxCollision" type="CollisionShape3D" parent="Hitbox"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.0643824, 0)
+shape = SubResource("SphereShape3D_cgka7")

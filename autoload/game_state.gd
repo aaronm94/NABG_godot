@@ -119,6 +119,27 @@ func spawn_player() -> void:
 
 	_set_mode(GameMode.GAMEPLAY)
 
+const EnemyScene: PackedScene = preload("res://scenes/environments/entities/enemy/chaser.tscn")
+
+func spawn_enemy() -> void:
+	print("GameState: spawn_enemy CALLED")
+
+	var level := get_tree().current_scene
+	if level == null:
+		push_error("No current scene to spawn enemy into.")
+		return
+
+	var sp := get_spawn_point()
+	if sp == null:
+		push_error("No start spawn point found for enemy.")
+		return
+
+	var enemy := EnemyScene.instantiate()
+	level.add_child(enemy)
+
+	enemy.global_transform.origin = sp.global_transform.origin
+	print("Enemy spawned at:", enemy.global_transform.origin)
+
 func respawn_player() -> void:
 	# Non-fatal reset (e.g., checkpoints) can still use this.
 	var sp := get_spawn_point()
