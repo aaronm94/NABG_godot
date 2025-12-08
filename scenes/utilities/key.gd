@@ -2,6 +2,8 @@
 extends StaticBody3D
 class_name Key
 
+signal key_collected   # Signal for GameState to detect when the key is picked up
+
 @export var exit_spawn_point: Node3D
 
 @onready var mesh: MeshInstance3D = $KeyModel
@@ -11,10 +13,12 @@ var _base_material: StandardMaterial3D
 var _highlight_material: StandardMaterial3D
 var _is_highlighted: bool = false
 
+
 func _ready() -> void:
+	add_to_group("keys")
 	hover_label.visible = false
 
-	# --- resolve spawn point ---
+	# --- resolve exit spawn point ---
 	if exit_spawn_point == null:
 		exit_spawn_point = _find_exit_spawn_point()
 
@@ -37,6 +41,13 @@ func _ready() -> void:
 
 	mesh.set_surface_override_material(0, _base_material)
 
+	# --- AUTO-CONNECT to GameState (critical for procedural levels) ---
+	if GameState.has_method("on_key_collected"):
+		connect("key_collected", Callable(GameState, "on_key_collected"))
+		print("🔌 Key connected to GameState from inside key.gd:", self)
+	else:
+		print("⚠ Could not connect key to GameState — method missing?")
+
 
 func set_highlighted(on: bool) -> void:
 	if _is_highlighted == on:
@@ -44,15 +55,23 @@ func set_highlighted(on: bool) -> void:
 
 	_is_highlighted = on
 
-	# material highlight
+	# Material highlight
 	mesh.set_surface_override_material(0, _highlight_material if on else _base_material)
 
-	# show/hide 3D label
+	# Show/hide 3D label
 	if hover_label:
 		hover_label.visible = on
 
 
 func interact() -> void:
+	# 🔥 DEBUG LOGS
+	print("🔑 Key interacted with!")
+	print("📢 Emitting key_collected signal now…")
+
+	emit_signal("key_collected")
+	print("✅ key_collected signal emitted successfully.")
+
+	# Continue normal key behavior
 	if exit_spawn_point == null:
 		exit_spawn_point = _find_exit_spawn_point()
 	if exit_spawn_point == null:
@@ -63,7 +82,7 @@ func interact() -> void:
 	AudioManager.play_sfx("ai_spawn")
 	GameState.set_active_spawn_point(exit_spawn_point)
 
-	# Optional: remove key after use
+	# Remove key after use (optional)
 	# queue_free()
 
 

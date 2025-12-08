@@ -22,6 +22,11 @@ GameActions="*res://autoload/game_actions.gd"
 AudioManager="*res://autoload/audio_manager.gd"
 AudioSettings="*res://autoload/audio_settings.gd"
 
+[display]
+
+window/size/viewport_width=1920
+window/size/viewport_height=1080
+
 [dotnet]
 
 project/assembly_name="NABG"

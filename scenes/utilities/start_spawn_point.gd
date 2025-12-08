@@ -14,10 +14,6 @@ func _ready() -> void:
 			Callable(GameState, "spawn_player"),
 			CONNECT_ONE_SHOT
 		)
-		gen.connect(
-			"done_generating",
-			Callable(GameState, "spawn_enemy"),
-			CONNECT_ONE_SHOT
-		)
+		
 	else:
 		push_warning("Parent has no 'done_generating' signal or is missing.")
