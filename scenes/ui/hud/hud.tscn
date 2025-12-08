@@ -51,8 +51,8 @@ grow_vertical = 2
 layout_mode = 0
 offset_left = 26.0
 offset_top = 24.0
-offset_right = 326.0
-offset_bottom = 54.0
+offset_right = 526.0
+offset_bottom = 59.0
 theme_override_font_sizes/font_size = 1
 theme_override_styles/background = SubResource("StyleBoxFlat_kfcwk")
 theme_override_styles/fill = SubResource("StyleBoxFlat_wvy5o")
@@ -60,10 +60,10 @@ value = 50.0
 
 [node name="Stamina Bar" type="ProgressBar" parent="Player Resources"]
 layout_mode = 0
-offset_left = 27.0
+offset_left = 26.0
 offset_top = 61.0
-offset_right = 327.0
-offset_bottom = 71.0
+offset_right = 526.0
+offset_bottom = 76.0
 theme_override_font_sizes/font_size = 1
 theme_override_styles/background = SubResource("StyleBoxFlat_d84xi")
 theme_override_styles/fill = SubResource("StyleBoxFlat_ra883")

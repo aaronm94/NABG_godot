@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://dwcc3wwrd5lph"]
 
-[ext_resource type="Script" path="res://scenes/ui/main_menu/controls.gd" id="1_3u1qw"]
+[ext_resource type="Script" uid="uid://dknb1nb3fg52g" path="res://scenes/ui/main_menu/controls.gd" id="1_3u1qw"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wjdfu"]
 bg_color = Color(0, 0, 0, 1)
@@ -34,7 +34,6 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 1)
-metadata/_edit_lock_ = true
 
 [node name="Controls" type="Label" parent="ColorRect"]
 layout_mode = 1
@@ -46,10 +45,9 @@ offset_top = 50.0
 offset_right = 81.5
 offset_bottom = 105.0
 grow_horizontal = 2
-theme_override_font_sizes/font_size = 40
+theme_override_font_sizes/font_size = 70
 text = "Controls"
 horizontal_alignment = 1
-metadata/_edit_lock_ = true
 
 [node name="BEGIN" type="Button" parent="ColorRect"]
 layout_mode = 1
@@ -58,10 +56,10 @@ anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -45.5
-offset_top = -148.0
-offset_right = 45.5
-offset_bottom = -106.0
+offset_left = -41.0
+offset_top = -352.0
+offset_right = 50.0
+offset_bottom = -310.0
 grow_horizontal = 2
 grow_vertical = 0
 size_flags_vertical = 3
@@ -73,22 +71,20 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_wjdfu")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_wjdfu")
 theme_override_styles/hover = SubResource("StyleBoxFlat_wjdfu")
 text = "BEGIN"
-metadata/_edit_lock_ = true
 
 [node name="Movement" type="Label" parent="."]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -419.0
-offset_top = 189.0
-offset_right = -111.0
-offset_bottom = 244.0
+offset_left = -458.0
+offset_top = 345.0
+offset_right = -150.0
+offset_bottom = 400.0
 grow_horizontal = 2
 theme_override_font_sizes/font_size = 40
 text = "Movement"
 horizontal_alignment = 1
-metadata/_edit_lock_ = true
 
 [node name="W" type="Panel" parent="Movement"]
 layout_mode = 1
@@ -102,7 +98,6 @@ offset_top = 53.5
 offset_right = 10.916
 offset_bottom = 93.5
 theme_override_styles/panel = SubResource("StyleBoxFlat_oje7a")
-metadata/_edit_lock_ = true
 
 [node name="W" type="Label" parent="Movement/W"]
 layout_mode = 1
@@ -118,7 +113,6 @@ theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 30
 text = "W"
 horizontal_alignment = 1
-metadata/_edit_lock_ = true
 
 [node name="A" type="Panel" parent="Movement"]
 layout_mode = 1
@@ -134,7 +128,6 @@ offset_bottom = 144.5
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_oje7a")
-metadata/_edit_lock_ = true
 
 [node name="A" type="Label" parent="Movement/A"]
 layout_mode = 1
@@ -149,7 +142,6 @@ theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 30
 text = "A"
 horizontal_alignment = 1
-metadata/_edit_lock_ = true
 
 [node name="S" type="Panel" parent="Movement"]
 layout_mode = 1
@@ -165,7 +157,6 @@ offset_bottom = 144.5
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_oje7a")
-metadata/_edit_lock_ = true
 
 [node name="S" type="Label" parent="Movement/S"]
 layout_mode = 1
@@ -181,7 +172,6 @@ theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 30
 text = "S"
 horizontal_alignment = 1
-metadata/_edit_lock_ = true
 
 [node name="D" type="Panel" parent="Movement"]
 layout_mode = 1
@@ -197,7 +187,6 @@ offset_bottom = 144.5
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_oje7a")
-metadata/_edit_lock_ = true
 
 [node name="D" type="Label" parent="Movement/D"]
 layout_mode = 1
@@ -213,23 +202,20 @@ theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 30
 text = "D"
 horizontal_alignment = 1
-metadata/_edit_lock_ = true
 
 [node name="KeyMaps" type="VBoxContainer" parent="."]
 layout_mode = 0
-offset_left = 635.0
-offset_top = 185.0
-offset_right = 787.0
-offset_bottom = 358.0
+offset_left = 1068.0
+offset_top = 339.0
+offset_right = 1220.0
+offset_bottom = 512.0
 alignment = 1
-metadata/_edit_lock_ = true
 
 [node name="Interact" type="Label" parent="KeyMaps"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 40
 text = "Interact"
 horizontal_alignment = 1
-metadata/_edit_lock_ = true
 
 [node name="E" type="Panel" parent="KeyMaps/Interact"]
 layout_mode = 1
@@ -243,7 +229,6 @@ offset_top = -18.996002
 offset_right = 231.5
 offset_bottom = 21.003998
 theme_override_styles/panel = SubResource("StyleBoxFlat_oje7a")
-metadata/_edit_lock_ = true
 
 [node name="E" type="Label" parent="KeyMaps/Interact/E"]
 layout_mode = 1
@@ -259,14 +244,12 @@ theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 30
 text = "E"
 horizontal_alignment = 1
-metadata/_edit_lock_ = true
 
 [node name="Sprint" type="Label" parent="KeyMaps"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 40
 text = "Sprint"
 horizontal_alignment = 1
-metadata/_edit_lock_ = true
 
 [node name="Shift" type="Panel" parent="KeyMaps/Sprint"]
 layout_mode = 1
@@ -280,7 +263,6 @@ offset_top = -15.970001
 offset_right = 257.0
 offset_bottom = 24.029999
 theme_override_styles/panel = SubResource("StyleBoxFlat_oje7a")
-metadata/_edit_lock_ = true
 
 [node name="Shift" type="Label" parent="KeyMaps/Sprint/Shift"]
 layout_mode = 1
@@ -298,14 +280,12 @@ theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 30
 text = "Shift"
 horizontal_alignment = 1
-metadata/_edit_lock_ = true
 
 [node name="Jump" type="Label" parent="KeyMaps"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 40
 text = "Jump"
 horizontal_alignment = 1
-metadata/_edit_lock_ = true
 
 [node name="SpaceBar" type="Panel" parent="KeyMaps/Jump"]
 layout_mode = 1
@@ -319,7 +299,6 @@ offset_top = -18.500008
 offset_right = 286.0
 offset_bottom = 21.499992
 theme_override_styles/panel = SubResource("StyleBoxFlat_oje7a")
-metadata/_edit_lock_ = true
 
 [node name="SpaceBar" type="Label" parent="KeyMaps/Jump/SpaceBar"]
 layout_mode = 1
@@ -335,6 +314,5 @@ theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 30
 text = "Space Bar"
 horizontal_alignment = 1
-metadata/_edit_lock_ = true
 
 [connection signal="pressed" from="ColorRect/BEGIN" to="." method="_begin_pressed"]
