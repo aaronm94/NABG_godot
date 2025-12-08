@@ -97,7 +97,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -35, -4, -45)
 [node name="SpawnRoom" parent="DungeonGenerator3D_A" instance=ExtResource("9_2sogg")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -35, 0, -45)
 
-[node name="ButtonRoom" parent="DungeonGenerator3D_A" instance=ExtResource("10_j0c5n")]
+[node name="KeyRoom" parent="DungeonGenerator3D_A" instance=ExtResource("10_j0c5n")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 0, 40)
 
 [node name="RoomsContainer" type="Node3D" parent="DungeonGenerator3D_A"]
@@ -210,44 +210,44 @@ dungeon_size = Vector3i(10, 1, 10)
 max_retries = 4
 metadata/_custom_type_script = "uid://bkatc8s6l7ok8"
 
-[node name="ButtonRoom" type="Node3D" parent="DungeonGenerator3D_B"]
+[node name="KeyRoom" type="Node3D" parent="DungeonGenerator3D_B"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -40, 0, 40)
 script = ExtResource("13_8oig7")
 size_in_voxels = Vector3i(2, 1, 2)
 min_count = 1
 max_count = 1
 
-[node name="Shell" type="CSGBox3D" parent="DungeonGenerator3D_B/ButtonRoom"]
+[node name="Shell" type="CSGBox3D" parent="DungeonGenerator3D_B/KeyRoom"]
 use_collision = true
 size = Vector3(20, 9.75, 20)
 material = SubResource("StandardMaterial3D_u8nlh")
 
-[node name="InteriorCavity" type="CSGBox3D" parent="DungeonGenerator3D_B/ButtonRoom/Shell"]
+[node name="InteriorCavity" type="CSGBox3D" parent="DungeonGenerator3D_B/KeyRoom/Shell"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.875, 0)
 operation = 2
 size = Vector3(19.5, 6.5, 19.5)
 material = ExtResource("13_j0c5n")
 
-[node name="DOOR" type="CSGBox3D" parent="DungeonGenerator3D_B/ButtonRoom/Shell"]
+[node name="DOOR" type="CSGBox3D" parent="DungeonGenerator3D_B/KeyRoom/Shell"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, -2.75, -9.75)
 operation = 2
 size = Vector3(2, 4.05, 1)
 material = ExtResource("13_j0c5n")
 
-[node name="Ceiling" type="CSGBox3D" parent="DungeonGenerator3D_B/ButtonRoom"]
+[node name="Ceiling" type="CSGBox3D" parent="DungeonGenerator3D_B/KeyRoom"]
 transform = Transform3D(-1, 0, -1.509958e-07, 0, 1, 0, 1.509958e-07, 0, -1, 0, 1.0273232, 0)
 use_collision = true
 size = Vector3(19.5, 0.5, 19.5)
 material = SubResource("StandardMaterial3D_5iium")
 
-[node name="CeilingLight2" parent="DungeonGenerator3D_B/ButtonRoom/Ceiling" instance=ExtResource("17_y14lo")]
+[node name="CeilingLight2" parent="DungeonGenerator3D_B/KeyRoom/Ceiling" instance=ExtResource("17_y14lo")]
 transform = Transform3D(1, 0, 1.4210855e-14, 0, 1, 0, -1.4210855e-14, 0, 1, 0, -0.26, 0)
 
-[node name="Floor" parent="DungeonGenerator3D_B/ButtonRoom" instance=ExtResource("18_uao87")]
+[node name="Floor" parent="DungeonGenerator3D_B/KeyRoom" instance=ExtResource("18_uao87")]
 transform = Transform3D(-1, 0, -1.509958e-07, 0, 1, 0, 1.509958e-07, 0, -1, 0, -4.85, 0)
 size = Vector3(20, 0.25, 20)
 
-[node name="RemoveUnusedDoors" type="Node" parent="DungeonGenerator3D_B/ButtonRoom"]
+[node name="RemoveUnusedDoors" type="Node" parent="DungeonGenerator3D_B/KeyRoom"]
 script = SubResource("GDScript_4tekc")
 
 [node name="ExitSpawnPoint" parent="DungeonGenerator3D_B" instance=ExtResource("11_mvm25")]

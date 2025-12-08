@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://ckun84mmfaxho"]
+[gd_scene load_steps=13 format=3 uid="uid://ckun84mmfaxho"]
 
 [ext_resource type="Script" uid="uid://bvuls78ovreqc" path="res://addons/SimpleDungeons/DungeonRoom3D.gd" id="1_yc0td"]
 [ext_resource type="Texture2D" uid="uid://bwe02yta75ooa" path="res://addons/SimpleDungeons/sample_assets/kenney-green-checkerboar-cc0.png" id="2_yc0td"]
@@ -7,6 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://dd538fil8yio4" path="res://addons/exit_sign.png" id="3_y6k7k"]
 [ext_resource type="PackedScene" uid="uid://bdu6qrj8u4qei" path="res://scenes/environments/room_parts/ceiling.tscn" id="6_vnbs7"]
 [ext_resource type="PackedScene" uid="uid://c7wia80o1eu3v" path="res://scenes/environments/room_parts/floor.tscn" id="7_d7gf8"]
+[ext_resource type="PackedScene" uid="uid://bxqkh42jm4nt5" path="res://scenes/utilities/enemy_spawn_point.tscn" id="8_ti8i6"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_vnbs7"]
 albedo_texture = ExtResource("2_yc0td")
@@ -71,3 +72,6 @@ transform = Transform3D(1, 0, 0, 0, -2.1855694e-08, -0.5, 0, 0.5, -2.1855694e-08
 material_override = SubResource("StandardMaterial3D_qyi4a")
 mesh = SubResource("PlaneMesh_yc0td")
 metadata/_edit_lock_ = true
+
+[node name="EnemySpawnPoint" parent="." instance=ExtResource("8_ti8i6")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2.6000001, 0)

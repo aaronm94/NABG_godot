@@ -1,10 +1,11 @@
-[gd_scene load_steps=13 format=3 uid="uid://bw8tx4n1l8jk"]
+[gd_scene load_steps=14 format=3 uid="uid://bw8tx4n1l8jk"]
 
 [ext_resource type="Script" uid="uid://bvuls78ovreqc" path="res://addons/SimpleDungeons/DungeonRoom3D.gd" id="1_yqcrr"]
 [ext_resource type="Texture2D" uid="uid://dydd6x64uxryr" path="res://addons/SimpleDungeons/sample_assets/kenney-red-checkerboard-cc0.png" id="2_kpqbl"]
 [ext_resource type="Material" uid="uid://c5geficuo6gqi" path="res://textures/corridor_walls.tres" id="3_sdxyh"]
 [ext_resource type="PackedScene" uid="uid://cmnbgu2cphifb" path="res://scenes/utilities/key.tscn" id="4_1qo6r"]
 [ext_resource type="Texture2D" uid="uid://dqvvgextswxru" path="res://addons/backrooms_textures/ceiling_tiles/ceiling_tiles_color.png" id="5_5dcku"]
+[ext_resource type="PackedScene" uid="uid://dygntcs20pbgx" path="res://scenes/environments/entities/enemy/chaser.tscn" id="5_ueksx"]
 [ext_resource type="Texture2D" uid="uid://dtvbgqw3taeqg" path="res://addons/backrooms_textures/ceiling_tiles/ceiling_tiles_normal.png" id="6_se864"]
 [ext_resource type="Texture2D" uid="uid://ddsjgv0h60x4b" path="res://addons/backrooms_textures/ceiling_tiles/ceiling_tiles_rough.png" id="7_c7sls"]
 [ext_resource type="PackedScene" uid="uid://l78mnmm25hj2" path="res://scenes/environments/room_parts/ceiling_light.tscn" id="8_mlpag"]
@@ -60,6 +61,7 @@ material = ExtResource("3_sdxyh")
 
 [node name="Key" parent="." instance=ExtResource("4_1qo6r")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -4.2000003, 0)
+chaser_scene = ExtResource("5_ueksx")
 
 [node name="Ceiling" type="CSGBox3D" parent="."]
 transform = Transform3D(-1, 0, -1.509958e-07, 0, 1, 0, 1.509958e-07, 0, -1, 0, 1.0273232, 0)

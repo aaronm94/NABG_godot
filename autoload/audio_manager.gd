@@ -66,8 +66,8 @@ var sfx_tracks: Dictionary[String, AudioStream] = {
 	"step6": preload("res://scenes/sounds/sfx/loud-walking-on-carpet-99860/step6.ogg"),
 	"death_fall": preload("res://scenes/sounds/sfx/fatal-body-fall-thud-352716.ogg"),
 	"ai_spawn": preload("res://scenes/sounds/sfx/dungeon-wall-slowly-closi-2b7ngizl.ogg"),
-	# "death_enemy": preload("res://path/to/enemy_death.ogg"),  #TBD
-	# "ui_click": preload("res://path/to/ui_click.ogg"),
+	"death_enemy": preload("res://scenes/sounds/sfx/terrifying-scream-353210.ogg"),
+	# "ui_click": preload("res://path/to/ui_click.ogg"), #TBD
 }
 
 const SFX_BUS_NAME: String = "SFX"  # make sure this bus exists under Master
