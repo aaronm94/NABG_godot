@@ -13,7 +13,7 @@ This repository contains the full source for the prototype, including procedural
 ## Core Premise
 
 Players awaken in an endless maze of fluorescent-lit, low-ceiling offices - **“The Backrooms.”**
-Their goal is simple: navigate procedural rooms, survive hazards, avoid the chaser enemy, and reach the exit.
+The goal is simple: navigate procedural rooms, survive hazards, avoid the chaser enemy, and reach the exit.
 Every run changes the layout, encouraging repeat attempts and environmental awareness.
 
 ## Features
@@ -144,8 +144,9 @@ Find the key, survive harzards, avoid the chaser, and reach the exit.
 
 1. Install **Godot 4.5.1**
 2. Clone the repository
-3. Open the project and launch (`NABG_godot/NABG.exe`)
-4. Enjoy
+3. Open the project (`project.godot`)
+4. Run `mainmenu.tscn` or launch the packaged build (`NABG.exe`)
+5. Enjoy
 
 ## Team
 
@@ -160,7 +161,8 @@ Find the key, survive harzards, avoid the chaser, and reach the exit.
 
 ### Textures
 
-- Backrooms PBR Texture Pack - OpenGameArt.org (https://opengameart.org/content/backrooms-pbr-texture-pack)
+- Backrooms PBR Texture Pack - OpenGameArt.org
+  https://opengameart.org/content/backrooms-pbr-texture-pack
 
 ### Music
 
@@ -173,11 +175,18 @@ Pixabay & SFXEngine - Full credits in documentation
 ### Procedural Generation
 
 SimpleDungeons (majikayogames) Github addon
-(https://github.com/majikayogames/SimpleDungeons/wiki)
+https://github.com/majikayogames/SimpleDungeons/wiki
+
+### Player Controller Reference
+
+Brackeys — “First Person Movement in Unity” Tutorial
+https://www.youtube.com/watch?v=JfBmzXYFQJ8
+(Used for conceptual guidance; rewritten for Godot.)
 
 ### Acknowledgements
 
-This project was developed with the assistance of **ChatGPT (OpenAI)** for documentation, code refactoring, best-practice guidance, and optimization support.
+This project was developed with the assistance of **ChatGPT (OpenAI)** for documentation support, code refactoring, architecture guidance, and optimization recommendations.
+All final implementations were reviewed and tested by the development team.
 
 ## Future Extensions
 
