@@ -315,4 +315,4 @@ theme_override_font_sizes/font_size = 30
 text = "Space Bar"
 horizontal_alignment = 1
 
-[connection signal="pressed" from="ColorRect/BEGIN" to="." method="_begin_pressed"]
+[connection signal="pressed" from="ColorRect/BEGIN" to="." method="_on_begin_pressed"]

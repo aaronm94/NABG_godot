@@ -1,0 +1,61 @@
+[gd_scene load_steps=10 format=3 uid="uid://dygntcs20pbgx"]
+
+[ext_resource type="Script" uid="uid://k7j1iliytsqc" path="res://scenes/gameplay/enemies/chaser.gd" id="1_pd5g1"]
+[ext_resource type="AudioStream" uid="uid://tjvfqolhpppf" path="res://assets/audio/sfx/a-monster-growling-and-sl-sm6rgzhd.ogg" id="2_6tvvn"]
+[ext_resource type="AudioStream" uid="uid://67tro4ae1cf" path="res://assets/audio/sfx/alien-monster-scream-259962.ogg" id="3_o6lp2"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_lmkr2"]
+radius = 0.75
+height = 3.5
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6tvvn"]
+albedo_color = Color(1, 0, 0, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_6tvvn"]
+material = SubResource("StandardMaterial3D_6tvvn")
+radius = 0.125
+height = 0.25
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_a2kct"]
+radius = 0.75
+height = 3.5
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_lmkr2"]
+radius = 10.0
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_dfx8l"]
+radius = 1.75
+
+[node name="Chaser" type="CharacterBody3D"]
+script = ExtResource("1_pd5g1")
+
+[node name="Body" type="MeshInstance3D" parent="."]
+mesh = SubResource("CapsuleMesh_lmkr2")
+
+[node name="LeftEye" type="MeshInstance3D" parent="Body"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.29999995, 1.1, -0.70000005)
+mesh = SubResource("SphereMesh_6tvvn")
+
+[node name="RightEye" type="MeshInstance3D" parent="Body"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.30000004, 1.1, -0.70000005)
+mesh = SubResource("SphereMesh_6tvvn")
+
+[node name="Collider" type="CollisionShape3D" parent="."]
+shape = SubResource("CapsuleShape3D_a2kct")
+
+[node name="DetectionArea" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="DetectionArea"]
+shape = SubResource("SphereShape3D_lmkr2")
+
+[node name="KillArea" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="KillArea"]
+shape = SubResource("SphereShape3D_dfx8l")
+debug_color = Color(1, 0, 0, 0.41960785)
+
+[node name="IdleSFX" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("2_6tvvn")
+
+[node name="ChasingSFX" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("3_o6lp2")

@@ -91,6 +91,8 @@ theme_override_styles/pressed = SubResource("StyleBoxFlat_loy4s")
 theme_override_styles/hover = SubResource("StyleBoxFlat_loy4s")
 text = "Exit"
 
-[connection signal="pressed" from="VBoxContainer/Start" to="." method="startbutton_pressed"]
+[connection signal="pressed" from="VBoxContainer/Start" to="." method="_on_start_button_pressed"]
 [connection signal="pressed" from="VBoxContainer/Options" to="." method="options_pressed"]
+[connection signal="pressed" from="VBoxContainer/Options" to="." method="_on_options_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/Exit" to="." method="_on_exit_button_pressed"]
 [connection signal="pressed" from="VBoxContainer/Exit" to="." method="exitbutton_pressed"]

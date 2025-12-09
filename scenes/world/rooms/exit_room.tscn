@@ -1,0 +1,77 @@
+[gd_scene load_steps=13 format=3 uid="uid://ckun84mmfaxho"]
+
+[ext_resource type="Script" uid="uid://bvuls78ovreqc" path="res://addons/SimpleDungeons/DungeonRoom3D.gd" id="1_yc0td"]
+[ext_resource type="Texture2D" uid="uid://bwe02yta75ooa" path="res://addons/SimpleDungeons/sample_assets/kenney-green-checkerboar-cc0.png" id="2_yc0td"]
+[ext_resource type="Material" uid="uid://c5geficuo6gqi" path="res://assets/textures/environment/corridor_walls.tres" id="3_6bkdq"]
+[ext_resource type="Script" uid="uid://ci4oapxvwalgk" path="res://scenes/gameplay/interactables/exit_door.gd" id="3_qyi4a"]
+[ext_resource type="Texture2D" uid="uid://dd538fil8yio4" path="res://assets/textures/ui/exit_sign.png" id="3_y6k7k"]
+[ext_resource type="PackedScene" uid="uid://bdu6qrj8u4qei" path="res://scenes/world/room_parts/ceiling.tscn" id="6_vnbs7"]
+[ext_resource type="PackedScene" uid="uid://c7wia80o1eu3v" path="res://scenes/world/room_parts/floor.tscn" id="7_d7gf8"]
+[ext_resource type="PackedScene" uid="uid://bxqkh42jm4nt5" path="res://scenes/utilities/enemy_spawn_point.tscn" id="8_ti8i6"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_vnbs7"]
+albedo_texture = ExtResource("2_yc0td")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_yc0td"]
+albedo_color = Color(0.43304914, 0.29657623, 0, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qyi4a"]
+albedo_texture = ExtResource("3_y6k7k")
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_yc0td"]
+
+[node name="ExitRoom" type="Node3D"]
+script = ExtResource("1_yc0td")
+min_count = 1
+max_count = 1
+metadata/_edit_lock_ = true
+
+[node name="Shell" type="CSGBox3D" parent="."]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0)
+use_collision = true
+size = Vector3(10, 9.75, 10)
+material = SubResource("StandardMaterial3D_vnbs7")
+metadata/_edit_lock_ = true
+
+[node name="InteriorCavity" type="CSGBox3D" parent="Shell"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.875, 0)
+operation = 2
+size = Vector3(9.5, 6.5, 9.5)
+material = ExtResource("3_6bkdq")
+metadata/_edit_lock_ = true
+
+[node name="DOOR_F_CUT" type="CSGBox3D" parent="Shell"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2.975, -5.05)
+operation = 2
+size = Vector3(2, 4.5, 1)
+material = ExtResource("3_6bkdq")
+metadata/_edit_lock_ = true
+
+[node name="Ceiling" parent="." instance=ExtResource("6_vnbs7")]
+transform = Transform3D(1, 0, 6.3573005e-08, 0, 1, 0, -6.3573005e-08, 0, 1, 0, 0.87732327, 0)
+metadata/_edit_lock_ = true
+
+[node name="Floor" parent="." instance=ExtResource("7_d7gf8")]
+transform = Transform3D(-1, 0, -1.509958e-07, 0, 1, 0, 1.509958e-07, 0, -1, 0, -4.85, 0)
+
+[node name="ExitDoor" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -3.3, -4.7999997)
+material_override = SubResource("StandardMaterial3D_yc0td")
+use_collision = true
+size = Vector3(2, 3, 0.15)
+script = ExtResource("3_qyi4a")
+metadata/_edit_lock_ = true
+
+[node name="HoverLabel" type="Label3D" parent="ExitDoor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4000001, 0.099999905)
+no_depth_test = true
+text = "ESCAPE 'E'"
+
+[node name="ExitSign" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -2.1855694e-08, -0.5, 0, 0.5, -2.1855694e-08, 0, -1.2, -4.7000017)
+material_override = SubResource("StandardMaterial3D_qyi4a")
+mesh = SubResource("PlaneMesh_yc0td")
+metadata/_edit_lock_ = true
+
+[node name="EnemySpawnPoint" parent="." instance=ExtResource("8_ti8i6")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2.6000001, 0)

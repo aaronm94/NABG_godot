@@ -1,0 +1,133 @@
+[gd_scene load_steps=12 format=3 uid="uid://dttq2icy387a1"]
+
+[ext_resource type="Script" uid="uid://bvuls78ovreqc" path="res://addons/SimpleDungeons/DungeonRoom3D.gd" id="1_x38ux"]
+[ext_resource type="Texture2D" uid="uid://djhy80eyqjqpv" path="res://addons/SimpleDungeons/sample_assets/kenney-dark-grey-checkboard-cc0.png" id="2_3qgfc"]
+[ext_resource type="Material" uid="uid://c5geficuo6gqi" path="res://assets/textures/environment/corridor_walls.tres" id="3_3orjh"]
+[ext_resource type="Material" uid="uid://u3j03tfrahkm" path="res://assets/textures/environment/floor.tres" id="4_dx4x3"]
+[ext_resource type="Texture2D" uid="uid://dqvvgextswxru" path="res://addons/backrooms_textures/ceiling_tiles/ceiling_tiles_color.png" id="5_6ckgo"]
+[ext_resource type="Texture2D" uid="uid://dtvbgqw3taeqg" path="res://addons/backrooms_textures/ceiling_tiles/ceiling_tiles_normal.png" id="6_28ani"]
+[ext_resource type="Texture2D" uid="uid://ddsjgv0h60x4b" path="res://addons/backrooms_textures/ceiling_tiles/ceiling_tiles_rough.png" id="7_gqwln"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_kxe0x"]
+albedo_texture = ExtResource("2_3qgfc")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5iium"]
+cull_mode = 2
+albedo_texture = ExtResource("5_6ckgo")
+roughness_texture = ExtResource("7_gqwln")
+normal_enabled = true
+normal_texture = ExtResource("6_28ani")
+uv1_scale = Vector3(0.2, 0.2, 0.2)
+uv1_offset = Vector3(0.125, 0, 0.25)
+uv1_triplanar = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_q4d18"]
+shading_mode = 2
+emission_enabled = true
+emission = Color(1, 0.9529412, 0.8156863, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_q4d18"]
+material = SubResource("StandardMaterial3D_q4d18")
+size = Vector3(1.199, 0.01, 2.452)
+
+[node name="FakeRoom" type="Node3D"]
+script = ExtResource("1_x38ux")
+size_in_voxels = Vector3i(1, 1, 2)
+
+[node name="Shell" type="CSGBox3D" parent="."]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0)
+use_collision = true
+size = Vector3(10, 10, 20)
+material = SubResource("StandardMaterial3D_kxe0x")
+
+[node name="InteriorCavity" type="CSGBox3D" parent="Shell"]
+operation = 2
+size = Vector3(9.5, 9.5, 19.5)
+material = ExtResource("3_3orjh")
+
+[node name="Ceiling" type="CSGBox3D" parent="Shell"]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 4, 0)
+use_collision = true
+size = Vector3(9.5, 0.5, 19.5)
+material = SubResource("StandardMaterial3D_5iium")
+
+[node name="CeilingLight" type="Node3D" parent="Shell/Ceiling"]
+transform = Transform3D(1, 0, 7.1054274e-15, 0, 1, 0, -7.1054274e-15, 0, 1, 2.5, -0.26, 0)
+
+[node name="FixtureMesh" type="MeshInstance3D" parent="Shell/Ceiling/CeilingLight"]
+transform = Transform3D(1, 0, 7.1054274e-15, 0, 1, 0, -7.1054274e-15, 0, 1, 0, 0, 0)
+mesh = SubResource("BoxMesh_q4d18")
+
+[node name="LightMain" type="SpotLight3D" parent="Shell/Ceiling/CeilingLight"]
+transform = Transform3D(1, 0, 0, 0, -4.3711385e-08, 0.99999994, 0, -0.99999994, -4.3711385e-08, 0, 0, 0)
+light_energy = 3.0
+shadow_enabled = true
+shadow_bias = 0.05
+shadow_opacity = 0.6
+shadow_blur = 5.0
+spot_range = 15.0
+spot_attenuation = 2.0
+spot_angle = 89.99
+
+[node name="LightHalo" type="SpotLight3D" parent="Shell/Ceiling/CeilingLight"]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, -0.15, 0)
+light_energy = 3.0
+spot_angle = 90.0
+
+[node name="CeilingLight2" type="Node3D" parent="Shell/Ceiling"]
+transform = Transform3D(1, 0, 1.4210855e-14, 0, 1, 0, -1.4210855e-14, 0, 1, 0, -0.26, 0)
+
+[node name="FixtureMesh" type="MeshInstance3D" parent="Shell/Ceiling/CeilingLight2"]
+transform = Transform3D(1, 0, 7.1054274e-15, 0, 1, 0, -7.1054274e-15, 0, 1, 0, 0, 0)
+mesh = SubResource("BoxMesh_q4d18")
+
+[node name="LightMain" type="SpotLight3D" parent="Shell/Ceiling/CeilingLight2"]
+transform = Transform3D(1, 0, 0, 0, -4.3711385e-08, 0.99999994, 0, -0.99999994, -4.3711385e-08, 0, 0, 0)
+light_energy = 3.0
+shadow_enabled = true
+shadow_bias = 0.05
+shadow_opacity = 0.6
+shadow_blur = 5.0
+spot_range = 15.0
+spot_attenuation = 2.0
+spot_angle = 89.99
+
+[node name="LightHalo" type="SpotLight3D" parent="Shell/Ceiling/CeilingLight2"]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, -0.15, 0)
+light_energy = 3.0
+spot_angle = 90.0
+
+[node name="CeilingLight3" type="Node3D" parent="Shell/Ceiling"]
+transform = Transform3D(1, 0, 7.1054274e-15, 0, 1, 0, -7.1054274e-15, 0, 1, -2.5, -0.26, 0)
+
+[node name="FixtureMesh" type="MeshInstance3D" parent="Shell/Ceiling/CeilingLight3"]
+transform = Transform3D(1, 0, 7.1054274e-15, 0, 1, 0, -7.1054274e-15, 0, 1, 0, 0, 0)
+mesh = SubResource("BoxMesh_q4d18")
+
+[node name="LightMain" type="SpotLight3D" parent="Shell/Ceiling/CeilingLight3"]
+transform = Transform3D(1, 0, 0, 0, -4.3711385e-08, 0.99999994, 0, -0.99999994, -4.3711385e-08, 0, 0, 0)
+light_energy = 3.0
+shadow_enabled = true
+shadow_bias = 0.05
+shadow_opacity = 0.6
+shadow_blur = 5.0
+spot_range = 15.0
+spot_attenuation = 2.0
+spot_angle = 89.99
+
+[node name="LightHalo" type="SpotLight3D" parent="Shell/Ceiling/CeilingLight3"]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, -0.15, 0)
+light_energy = 3.0
+spot_angle = 90.0
+
+[node name="DOOR_F_CUT" type="CSGBox3D" parent="Shell"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2.75, -10.25)
+operation = 2
+size = Vector3(2, 4, 1)
+material = ExtResource("3_3orjh")
+
+[node name="Floor" type="CSGBox3D" parent="Shell"]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, -4.85, 0)
+use_collision = true
+size = Vector3(10, 0.25, 20)
+material = ExtResource("4_dx4x3")
