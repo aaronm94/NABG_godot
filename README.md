@@ -168,7 +168,7 @@ Licensed under CC BY-SA 4.0 - Full credits in documentation
 
 ### Sound Effects
 
-Pixabay & SFXEngine - detailed credits in documentation
+Pixabay & SFXEngine - Full credits in documentation
 
 ### Procedural Generation
 
