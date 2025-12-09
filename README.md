@@ -161,8 +161,8 @@ Find the key, survive harzards, avoid the chaser, and reach the exit.
 
 ### Textures
 
-- Backrooms PBR Texture Pack - OpenGameArt.org
-  https://opengameart.org/content/backrooms-pbr-texture-pack
+Backrooms PBR Texture Pack - OpenGameArt.org
+https://opengameart.org/content/backrooms-pbr-texture-pack
 
 ### Music
 
